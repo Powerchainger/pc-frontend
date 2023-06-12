@@ -1,1 +1,11 @@
-.Settings {}
+.Settings {
+    width: 100%;
+}
+
+.sidenav {
+    float: left;
+}
+
+.chart {
+    float: left;
+}

@@ -1,3 +1,15 @@
 .Home {
+    width: 100%;
+}
 
+.sidenav {
+    float: left;
+}
+
+.content {
+    float: left;
+}
+
+.predict{
+    float: left;
 }

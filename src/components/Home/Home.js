@@ -3,11 +3,16 @@ import PropTypes from 'prop-types';
 import './Home.css';
 import SideNav from "../SideNav/SideNav";
 import HomeContent from "../HomeContent/HomeContent";
+import Prediction from "../Prediction/Prediction";
 
 const Home = () => (
   <div className="Home" data-testid="Home">
-      <SideNav></SideNav>
-      <HomeContent></HomeContent>
+      <div className="sidenav">
+        <SideNav></SideNav>
+      </div>
+      <div className="predict">
+          <Prediction></Prediction>
+      </div>
   </div>
 );
 

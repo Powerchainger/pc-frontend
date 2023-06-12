@@ -1,30 +1,52 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import './DeviceList.css';
+import PowerIcon from '@mui/icons-material/Power';
+import {NavLink} from "react-router-dom";
+import Device from "../Device/Device";
 
-class DeviceList extends React.Component {
+const DeviceList = () => {
 
-    constructor() {
-        super();
-        this.state = {devices: ["fridge", "pc", "airfryer", "electric heater","microwave", "kettle", "toaster","vacuum","monitor"]}
-    }
+    const [devices, setDevices] = useState(0)
 
-    //fetch devices from backend instead of hardcode in line 10
-    componentWillMount() {
+    useEffect(() => {
+        //get devices from api instead of hardcoded!
+        const devices = {
+            "toaster": 1,
+            "kettle": 0,
+            "fridge": 1,
+            "pc": 1,
+            "airfryer": 0,
+            "heater": 0,
+            "microwave": 0,
+            "monitor": 1
+        }
 
-    }
+        for(let device in devices) {
+            if (devices[device] === 0) {
+                devices[device] = "off"
+            } else {
+                devices[device] = "on"
+            }
+        }
 
-    render() {
-        let devices = this.state.devices
-        return (
-            <div>
-                <h4>registered devices</h4>
-                <ul>
-                {devices.map(device => <div className="device"><li>{device}</li></div>)}
-                </ul>
-            </div>
-        )
-    }
+        setDevices(devices)
+
+    }, [])
+
+    return (
+        <div>
+            <h2>Registered devices</h2>
+
+            {
+                Object.entries(devices).map(([deviceName, onOff]) => <div className="devices">
+                    <Device name={deviceName} on_off={onOff}></Device>
+                </div>)
+            }
+
+        </div>
+    )
+
 
 }
 DeviceList.propTypes = {};

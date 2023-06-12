@@ -2,7 +2,7 @@
     width: 250px;
     transition: width 0.3s ease-in-out;
     height: 100vh;
-    background-color: rgb(10,25,41);
+    background-color: cornflowerblue;
     padding-top: 28px;
 }
 
@@ -17,7 +17,7 @@
     align-items: center;
     padding: 10px 20px;
     cursor: pointer;
-    color: #B2BAC2;
+    color: yellow;
     text-decoration: none;
 }
 
@@ -39,7 +39,7 @@
     align-self: center;
     align-self: flex-start;
     justify-self: flex-end;
-    color: #B2BAC2;
+    color: yellow;
     background-color: transparent;
     border: none;
     cursor: pointer;
