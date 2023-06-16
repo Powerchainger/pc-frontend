@@ -8,7 +8,7 @@ const devices = [
     "toaster",
     "kettle",
     "fridge",
-    "pc",
+    "pc-laptop",
     "airfryer",
     "heater",
     "microwave",
@@ -21,7 +21,6 @@ const Settings = () => {
 
   <div className="Settings" data-testid="Settings">
     <div className="sidenav"><SideNav></SideNav></div>
-      {devices.map((device) => <div> <DeviceChart device={device}></DeviceChart>)</div>)}
      </div>
 
     )};

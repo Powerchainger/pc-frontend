@@ -6,6 +6,7 @@ var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 let totalUsage = 0;
 class Last24HourChart extends React.Component {
 
+
     constructor(props) {
         super(props);
 
@@ -15,13 +16,22 @@ class Last24HourChart extends React.Component {
     }
 
     componentDidMount() {
-        const url = "http://shambuwu.com:8000/api/measurements?owner=kevin";
-        //const everyNth = (arr, nth) => arr.filter((e,i) => i % nth === nth-1)
+        const username = localStorage.getItem("username")
+        const url = "http://shambuwu.com:8000/api/measurements?owner=" + username;
+        const token = localStorage.getItem("token")
+        const myHeaders = new Headers();
 
+        myHeaders.append('Authorization', token)
 
-        fetch(url)
+        fetch(url, {
+            method: 'GET',
+            headers: myHeaders,
+
+        })
             .then(response => {
+                console.log(token)
                 return response.json()
+
             })
             .then( data => {
                 var convertedData = []
@@ -34,12 +44,8 @@ class Last24HourChart extends React.Component {
                     totalUsage +=
                     convertedData.push(datapoints)
                 }
-                //const interval = Math.floor(convertedData.length/10)
-
-                //const graphData = everyNth(convertedData,interval)
 
                 this.setState({data:convertedData})
-                console.log(totalUsage)
 
             },[])
 

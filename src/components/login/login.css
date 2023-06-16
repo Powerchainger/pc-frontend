@@ -1,39 +1,144 @@
-.Login{}
 
 .login {
     text-align: center;
-    justify-content: center;
+    justify-content: left;
     display: flex;
-    height: 100vh;
-    padding-top: 80px;
-    background: url(images/background1.jpg) no-repeat center center fixed;
+    padding-top: 90px;
+    padding-left: 130px;
+    height: 74vh;
+    background: url(images/beach-background.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 }
 
+
+.outer-ring {
+    padding: 30px;
+}
+
+#error-message {
+    margin-right: 25px;
+    color: red;
+}
+
 .sub {
     display: flex;
     justify-content: center;
-    height: 500px;
-    width: 22%;
+    height: 580px;
+    width: 25%;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    padding-top: 30px;
-    border-radius: 60px;
+    /*padding-top: 40px;*/
     background-color: white;
 }
 
 .imgs {
-    padding-top: 20px;
-    justify-content: center;
+    justify-content: left;
     display: flex;
+    height: 40px;
+    padding-top: 50px;
+
 }
 
+.register-box {
+    height: 250px;
+    width: 20%;
+    background-color: #0b5ed7;
+    margin-left: 30px;
+}
+
+#register-title {
+    color: white;
+    float: left;
+    padding-left: 40px;
+
+}
+
+#register-text {
+    color: white;
+    float: left;
+    padding-left: 40px;
+    font-weight: lighter;
+}
+
+#register-button {
+    background-color: #0b5ed7;
+    border-color: white;
+    float: left;
+    margin-left: 70px;
+    margin-top: 50px;
+    width: 60%;
+    height: 40px;
+    border-radius: 25px;
+    color: white;
+}
+
+.login-button {
+    cursor: pointer;
+    outline: 0;
+    color: black;
+    background-color: gold;
+    /*display: inline-block;*/
+    line-height: 1.5;
+    text-align: center;
+    border: 1px solid transparent;
+    width: 300px;
+    padding: 6px 16px;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 25px;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+.login-button:hover {
+    color: #fff;
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+.imgs2 {
+    display: flex;
+    justify-content: left;
+    height: 40px;
+    padding-bottom: 5px;
+    padding-left: 140px;
+}
+
+.text-bottom {
+    display: flex;
+    justify-content: right;
+    padding-right: 150px;
+    font-weight: bold;
+
+}
+
+li {
+    list-style: none;
+    font-size: 15px;
+    padding-right: 30px;
+}
+
+li:before {
+
+    content: "\00BB";
+}
+
+.login-text {
+    display: flex;
+    justify-content: left;
+    padding-bottom: 20px;
+}
+
+text {
+    padding-left: 30px;
+    font-weight: bold;
+}
+
+
 input{
-    width: 250px;
-    height: 30px;
-    border-radius: 20px;
+    width: 300px;
+    height: 40px;
+    border-radius: 7px;
     text-align: center;
 
 }
@@ -42,7 +147,7 @@ input{
     align-items: center;
     justify-content: center;
     position: absolute;
-    padding-top: 120px;
+    padding-top: 30px;
 }
 
 .login-button {
@@ -59,7 +164,17 @@ input{
 }
 
 .login-container {
-    padding-top: 20px;
+    padding-top: 90px;
+}
+
+label, input {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+label {
+    padding-right: 190px;
 }
 
 

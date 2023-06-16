@@ -5,16 +5,21 @@ import SideNav from "../SideNav/SideNav";
 import HomeContent from "../HomeContent/HomeContent";
 import Prediction from "../Prediction/Prediction";
 
-const Home = () => (
+const Home = () => {
+
+
+    return (
   <div className="Home" data-testid="Home">
       <div className="sidenav">
-        <SideNav></SideNav>
-      </div>
-      <div className="predict">
-          <Prediction></Prediction>
-      </div>
+          <div className="sidenav-container">
+              <SideNav></SideNav>
+          </div>
+          <div className="content-container">
+            <HomeContent></HomeContent>
+          </div>
+          </div>
   </div>
-);
+)};
 
 Home.propTypes = {};
 

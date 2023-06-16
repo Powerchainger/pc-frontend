@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import './LoginButton.css';
 import {useNavigate} from "react-router-dom";
 
-function LoginButton() {
+function LoginButton(props) {
     const navigate = useNavigate()
 
-    function handleclick() {
+    function login() {
         navigate("/home")
     }
 
     return (
     <div className="LoginButton" data-testid="LoginButton">
-        <button className="login-button" onClick={handleclick}>login</button>
+        <button className="login-button" onClick={login}>login</button>
     </div>
     );
 }

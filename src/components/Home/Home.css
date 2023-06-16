@@ -2,14 +2,11 @@
     width: 100%;
 }
 
-.sidenav {
+.sidenav-container {
     float: left;
 }
 
-.content {
-    float: left;
+.content-container {
+    border: solid red;
 }
 
-.predict{
-    float: left;
-}
