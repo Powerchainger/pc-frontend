@@ -53,61 +53,48 @@ const Login = () => {
     }
 
 
-
-
     return (
         <div className="outer-ring">
             <div className="imgs2">
-            <img className="top-img" src={logo}/>
-                <text>Home</text>
-                <text>MKB & ZZP</text>
-                <text>Grootzakelijk</text>
+                <img className="top-img" src={logo}/>
             </div>
-  <div className="login" data-testid="Login">
-    <div className="sub">
-        <div>
-        </div>
-        <div className="content">
-            <div className="login-text">
-             <h1>Login</h1>
-            </div>
-            <div className="name-container">
-                <label form="username">E-mail</label>
-                <input type="text" className="name" id="username" onChange={handleUsernameChange}/>
-            </div>
-            <div className="pw-container">
-                <label form="password">Password</label>
-                <input type="password" className="password" id="password" onChange={handlePasswordChange}/>
-            </div>
-            <a href="">Forgot e-mail or password?</a>
-            <div className="login-container">
-                <text id="error-message">{errorMessage}</text>
-                <div className="LoginButton" data-testid="LoginButton">
-                    <button className="login-button" onClick={tryLogin}>login</button>
+            <div className="login" data-testid="Login">
+                <div className="sub">
+                    <div>
+                    </div>
+                    <div className="content">
+                        <div className="login-text">
+                            <h1>Login</h1>
+                        </div>
+                        <div className="name-container">
+                            <label form="username">Username</label>
+                            <input type="text" className="name" id="username" onChange={handleUsernameChange}/>
+                        </div>
+                        <div className="pw-container">
+                            <label form="password">Password</label>
+                            <input type="password" className="password" id="password" onChange={handlePasswordChange}/>
+                        </div>
+                        <div className="login-container">
+                            <text id="error-message">{errorMessage}</text>
+                            <div className="LoginButton" data-testid="LoginButton">
+                                <button className="login-button" onClick={tryLogin}>login</button>
+                            </div>
+                        </div>
+                        <ul>
+                            <li><a href=""> Log in without password</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <ul>
-                <li><a href="">  Log in without password</a></li>
-            </ul>
-        </div>
-    </div>
-      <div className="register-box">
-          <h2 id="register-title">No account yet?</h2>
-          <text id="register-text"> In a few easy steps you can easily</text>
-              <text id="register-text">create a Vattenfall account.</text>
-              <text id="register-text">Keep your customernumber ready</text>
-          <button id="register-button">Create an account</button>
-      </div>
-  </div>
             <img src={logo} className="imgs2"/>
             <div className="text-bottom">
                 <text>Service</text>
                 <text>Privacy & Cookies</text>
-                <text>About Vattenfall</text> </div>
+                <text>About Vattenfall</text>
+            </div>
         </div>
-);
+    );
 }
-
 
 
 Login.propTypes = {};

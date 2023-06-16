@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import './Settings.css';
-import SideNav from "../SideNav/SideNav";
+import SideNav from "../SideNav/SideNav.tsx";
+import DeviceChart from "../DeviceChart/DeviceChart";
+import Device from "../Device/Device";
 
 
 const Settings = () => {

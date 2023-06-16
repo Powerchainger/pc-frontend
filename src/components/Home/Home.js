@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Home.css';
-import SideNav from "../SideNav/SideNav";
+import SideNav from "../SideNav/SideNav.tsx";
 import HomeContent from "../HomeContent/HomeContent";
 import Prediction from "../Prediction/Prediction";
 

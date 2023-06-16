@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './DevicePage.css';
-import SideNav from "../SideNav/SideNav";
+import SideNav from "../SideNav/SideNav.tsx";
 import DeviceList from "../DeviceList/DeviceList";
 
 const DevicePage = () => (

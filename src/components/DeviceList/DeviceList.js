@@ -4,10 +4,12 @@ import './DeviceList.css';
 import PowerIcon from '@mui/icons-material/Power';
 import {NavLink} from "react-router-dom";
 import Device from "../Device/Device";
+import { Grid } from '@mui/material';
 
 const DeviceList = () => {
 
     const [devices, setDevices] = useState([])
+    const [results, setResults] = useState([{}])
     const url = "http://shambuwu.com:8000/api/predictions?dataset=levi"
 
     //add auth later!
@@ -19,23 +21,26 @@ const DeviceList = () => {
         //get devices from api instead of hardcoded!
         fetch(url, requestOptions)
             .then(response => response.json())
-            .then(data => setDevices(Object.keys(data['images'])))
+            .then(data => {
+                setDevices(Object.keys(data['images']))
+                setResults(data['images'])
+            })
         console.log(devices)
-
-
-
     }, [])
 
     return (
         <div>
             <h2>Registered devices</h2>
 
-            {
-                devices.map( device =>
-                    <Device name={device}></Device>
-                )
-            }
-
+            <Grid container spacing={2}>
+                    {
+                        Object.entries(results).map(([key, value]) =>
+                            <Grid item xs={4}>
+                                <Device name={key} image={value}></Device>
+                            </Grid>
+                        )
+                    }
+            </Grid>
         </div>
     )
 
