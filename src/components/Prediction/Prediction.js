@@ -10,25 +10,17 @@ const Prediction = () => {
         // fetch data
         const dataFetch = async () => {
             const data = await fetch(
-                "http://shambuwu.com:8000/api/predict"
+                "http://shambuwu.com:8000/api/predictions?dataset=levi"
             ).then(r=> {return r.json()})
-
-            setData(data)
-            //readData()
         };
 
         dataFetch();
     }, []);
 
 
-    const readData = () => {
-        const aplianceData = data["per_appliance_score"]
-        console.log(aplianceData)
-    }
-
     return (
         <div>
-            <div><h1>Hallo Kevin</h1></div>
+            <div></div>
             <div></div>
         </div>
     )

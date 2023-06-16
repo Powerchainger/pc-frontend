@@ -22,7 +22,7 @@ const Device = (props) => {
 
     return (
     <div className="Device" data-testid="Device">
-        <div className={on_off}>your {name} is {on_off}</div>
+        <div className={on_off}>{name}</div>
     </div>
     )};
 

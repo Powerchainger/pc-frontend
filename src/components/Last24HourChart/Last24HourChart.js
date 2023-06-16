@@ -29,7 +29,6 @@ class Last24HourChart extends React.Component {
 
         })
             .then(response => {
-                console.log(token)
                 return response.json()
 
             })

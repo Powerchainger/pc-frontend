@@ -7,30 +7,22 @@ import Device from "../Device/Device";
 
 const DeviceList = () => {
 
-    const [devices, setDevices] = useState(0)
+    const [devices, setDevices] = useState([])
+    const url = "http://shambuwu.com:8000/api/predictions?dataset=levi"
+
+    //add auth later!
+    const requestOptions = {
+        method: 'GET',
+    }
 
     useEffect(() => {
         //get devices from api instead of hardcoded!
-        const devices = {
-            "toaster": 1,
-            "kettle": 0,
-            "fridge": 1,
-            "pc": 1,
-            "airfryer": 0,
-            "heater": 0,
-            "microwave": 0,
-            "monitor": 1
-        }
+        fetch(url, requestOptions)
+            .then(response => response.json())
+            .then(data => setDevices(Object.keys(data['images'])))
+        console.log(devices)
 
-        for(let device in devices) {
-            if (devices[device] === 0) {
-                devices[device] = "off"
-            } else {
-                devices[device] = "on"
-            }
-        }
 
-        setDevices(devices)
 
     }, [])
 
@@ -39,9 +31,9 @@ const DeviceList = () => {
             <h2>Registered devices</h2>
 
             {
-                Object.entries(devices).map(([deviceName, onOff]) => <div className="devices">
-                    <Device name={deviceName} on_off={onOff}></Device>
-                </div>)
+                devices.map( device =>
+                    <Device name={device}></Device>
+                )
             }
 
         </div>
