@@ -30,6 +30,9 @@ const theme = createTheme({
         secondary: {
             main: '#ffda00',
         },
+        info: {
+            main: '#808080',
+        }
     },
     typography: {
         // Define typography options here
