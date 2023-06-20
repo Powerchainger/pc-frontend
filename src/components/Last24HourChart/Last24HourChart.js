@@ -86,7 +86,7 @@ class Last24HourChart extends React.Component {
             <div className="chart">
                 <CanvasJSChart options = {options}
                 />
-                <h3>Total usage: {totalUsage/1000} Kw</h3>
+                <h3>Total consumption: {(totalUsage/1000)/3600} KwH</h3>
             </div>
         );
 
