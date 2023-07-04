@@ -13,7 +13,7 @@ const DeviceList = () => {
     const [time, setTime] = useState(null)
     const [loading, setLoading] = useState(false)
     const [deviceStates, setDeviceStates] = useState([])
-    const url = "http://shambuwu.com:8000/api/predictions?dataset=levi"
+    const url = "http://77.172.199.5:8000/api/predictions?dataset=levi" //ip -> shambuwu.com waneer het domein terug is
 
 
 
@@ -54,6 +54,7 @@ const DeviceList = () => {
         }
 
         setLoading(true)
+        console.time("fetchtimer prediction")
         fetch(url, requestOptions)
             .then(response => response.json())
             .then(data => {
@@ -66,8 +67,9 @@ const DeviceList = () => {
                 setTime("Last Sync: " + current.toLocaleTimeString())
                 localStorage.setItem('time', current.toLocaleTimeString())
                 setLoading(false)
+                console.timeEnd("fetchtimer prediction")
             })
-        console.log(devices)
+
     }, [])
 
     return (

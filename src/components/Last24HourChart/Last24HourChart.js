@@ -17,12 +17,13 @@ class Last24HourChart extends React.Component {
 
     componentDidMount() {
         const username = localStorage.getItem("username")
-        const url = "http://shambuwu.com:8000/api/measurements?owner=" + username;
+        const url = "http://77.172.199.5:8000/api/measurements?owner=" + username;
         const token = localStorage.getItem("token")
         const myHeaders = new Headers();
 
         myHeaders.append('Authorization', token)
 
+        console.time("fetchtimer graph data")
         fetch(url, {
             method: 'GET',
             headers: myHeaders,
@@ -43,7 +44,7 @@ class Last24HourChart extends React.Component {
                     totalUsage +=
                     convertedData.push(datapoints)
                 }
-
+                console.timeEnd("fetctimer graph data")
                 this.setState({data:convertedData})
 
             },[])

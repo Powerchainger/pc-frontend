@@ -34,7 +34,7 @@ const Login = () => {
         }
 
 
-        fetch("http://shambuwu.com:8000/api/login_check", requestOptions)
+        fetch("http://77.172.199.5:8000/api/login_check", requestOptions)//ip -> shambuwu.com waneer het domein terug is
             .then(response => {
                 if (!response.ok) throw new Error(response.status)
                 // eslint-disable-next-line react-hooks/rules-of-hooks

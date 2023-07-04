@@ -66,7 +66,7 @@ const Device = (props) => {
                 >
                     <img
                         style={{ maxWidth: "100%", height: "auto" }}
-                        src={`http://shambuwu.com:5000/` + String(props.image).slice(1)}
+                        src={`http://77.172.199.5:5000/` + String(props.image).slice(1)} // ip -> shambuwu.com waneer domein terug is
                         alt="image"
                     />
                 </Dialog>
