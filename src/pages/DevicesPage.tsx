@@ -118,6 +118,7 @@ const DevicesPage = () => {
                     </Typography>
                 </Box>
                 <BubbleChart data={Object.entries(devicesList).map(([name, deviceData]) => ({ name, value: deviceData.value }))} />
+                <div className="border-t border-gray-300 w-full my-2"></div>
                 <Grid container spacing={2} className="w-full">
                     {Object.entries(devicesList).map(([key, value]) => (
                         <Grid item xs={4} key={key} className={`bg-gradient-${value.state}`}>
