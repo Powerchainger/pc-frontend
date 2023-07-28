@@ -1,6 +1,4 @@
 // @ts-nocheck
-// Gezeik met Typescript en d3, dus ts-nocheck
-// Komt omdat d3 niet goed is gemaakt voor Typescript
 import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 
@@ -26,19 +24,28 @@ const BubbleChart = ({ data }: { data: BubbleData[] }) => {
         const { width, height } = svgDom.getBoundingClientRect();
 
         // Create a layout first
-        const pack = d3.pack().size([width, height]).padding(0.5);  // Decrease padding
+        const pack = d3.pack().size([width, height]).padding(0.5);
 
         // Create a root node
         const root = d3.hierarchy({ children: data })
             .sum((d: any) => d.value)
             .sort((a, b) => b.value! - a.value!);
 
+        // Adjust scale for radius to match data values
+        const maxValue = Math.max(...data.map(d => d.value));
+        const radiusScale = d3.scaleLinear()
+            .domain([0, maxValue])
+            .range([0, Math.min(width, height) / 2]);
+
+        // Adjust radius values
+        root.each(d => d.r = radiusScale(d.value));
+
         // Create bubbles and assign data
         const node = svg.selectAll(".node")
             .data(pack(root).leaves())
             .enter().append("g")
             .attr("transform", d => `translate(${d.x},${d.y})`)
-            .call(d3.drag()  // Call D3 drag function
+            .call(d3.drag()
                 .on("start", dragstarted)
                 .on("drag", dragged)
                 .on("end", dragended));
@@ -46,8 +53,8 @@ const BubbleChart = ({ data }: { data: BubbleData[] }) => {
         // Add circle for each node
         node.append("circle")
             .attr("r", d => d.r)
-            .style("fill", "darkblue")  // Change color to dark blue
-            .on("click", d => {  // Add click event handler
+            .style("fill", "darkblue")
+            .on("click", d => {
                 alert(`You clicked on ${d.data.name}`);
             });
 
@@ -56,7 +63,28 @@ const BubbleChart = ({ data }: { data: BubbleData[] }) => {
             .text(d => d.data.name)
             .attr("text-anchor", "middle")
             .style("fill", "#fff")
-            .style("font-size", d => `${d.r * 0.2}px`);  // Adjust font size based on radius
+            .style("font-size", d => `${d.r * 0.2}px`);
+
+        // Add background circles for watt values and labels
+        // const wattValues = [250, 500, 1000];
+        // const maxBubbleRadius = Math.max(...node.data().map(d => d.r));
+        // wattValues.forEach(watt => {
+        //     const r = (watt / Math.max(...wattValues)) * maxBubbleRadius;
+        //     svg.append("circle")
+        //         .attr("cx", width / 2)
+        //         .attr("cy", height / 2)
+        //         .attr("r", r)
+        //         .style("fill", "none")
+        //         .style("stroke", "gray")
+        //         .style("stroke-dasharray", "2,2");
+        //     svg.append("text")
+        //         .attr("x", width / 2)
+        //         .attr("y", height / 2 - r - 5)
+        //         .text(`${watt} watts`)
+        //         .style("fill", "gray")
+        //         .style("opacity", 0.7)
+        //         .style("font-size", "12px");
+        // });
 
         function dragstarted(event, d) {
             d3.select(this).raise();

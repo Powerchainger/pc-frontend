@@ -85,12 +85,14 @@ export default function Sidebar() {
                     </ListItemPrefix>
                     Profile
                 </ListItem>
-                <ListItem>
-                    <ListItemPrefix>
-                        <FontAwesomeIcon icon={faGear} className="h-5 w-5" />
-                    </ListItemPrefix>
-                    Settings
-                </ListItem>
+                <Link to={"/settings"}>
+                    <ListItem>
+                        <ListItemPrefix>
+                            <FontAwesomeIcon icon={faGear} className="h-5 w-5" />
+                        </ListItemPrefix>
+                        Settings
+                    </ListItem>
+                </Link>
                 <ListItem>
                     <ListItemPrefix>
                         <FontAwesomeIcon icon={faPowerOff} className="h-5 w-5" />
