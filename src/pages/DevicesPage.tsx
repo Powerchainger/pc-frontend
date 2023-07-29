@@ -50,6 +50,7 @@ const DevicesPage = () => {
             const data: ApiResponse = response.data;
 
             const updatedList: Record<string, DeviceData> = {};
+
             let newNotices: Notice[] = [];
 
             Object.entries(data.device_states).forEach(([key, value]) => {
@@ -69,6 +70,15 @@ const DevicesPage = () => {
                     });
                 }
             });
+
+            for (let i = 1; i <= 4; i++) {
+                updatedList[`Dummy Device ${i}`] = {
+                    image: undefined,
+                    name: `Dummy Device ${i}`,
+                    state: "disabled",
+                    value: 0,
+                };
+            }
 
             const savedNotices = JSON.parse(localStorage.getItem('notices') || '[]');
             localStorage.setItem('notices', JSON.stringify([...savedNotices, ...newNotices]));

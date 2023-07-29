@@ -24,12 +24,12 @@ const Device: React.FC<DeviceProps> = ({ name = "device", state = "off", image }
         borderColor = "info.main"
     }
 
-    const renderSwitch = (param: string) => { // Update this line
+    const renderSwitch = (param: string) => {
         switch (param) {
             case "off":
                 return <Chip label="off" color="error" />;
             case 'disabled':
-                return <Chip label="disabled" color="info" />;
+                return <Chip label="disabled" style={{ backgroundColor: 'gray', color: 'white' }} />;
             default:
                 return <Chip label="on" color="success" />;
         }
