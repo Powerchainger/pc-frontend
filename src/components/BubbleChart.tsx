@@ -52,11 +52,14 @@ const BubbleChart = ({ data }: { data: BubbleData[] }) => {
 
         // Add circle for each node
         node.append("circle")
-            .attr("r", d => d.r)
+            .attr("r", 0)  // start at 0
             .style("fill", "darkblue")
             .on("click", d => {
                 alert(`You clicked on ${d.data.name}`);
-            });
+            })
+            .transition()  // start a transition
+            .duration(1000)  // for 1 second
+            .attr("r", d => d.r);  // grow the radius to its final size
 
         // Add text for each node
         node.append("text")
