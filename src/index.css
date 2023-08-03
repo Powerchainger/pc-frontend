@@ -1,3 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .bg-gradient-on {
+    background: linear-gradient(to right, #8e2de2, #4a00e0);
+  }
+  .bg-gradient-off {
+    background: linear-gradient(to right, #ff9966, #ff5e62);
+  }
+  .bg-gradient-disabled {
+    background: linear-gradient(to right, #606c88, #3f4c6b);
+  }
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
