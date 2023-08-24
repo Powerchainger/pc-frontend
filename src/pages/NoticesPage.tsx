@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
-import { Grid, List, ListItem, Divider, Collapse, Typography, Button } from "@mui/material";
+import { Grid, List, ListItem, Divider, Collapse, Typography, Button, Popover } from "@mui/material";
 import { styled } from "@mui/system";
 import tw from 'twin.macro';
 import { Notice } from '../components/types';
+
+
 
 const dummyNotices: Notice[] = [
     {
@@ -54,6 +56,7 @@ const StyledCollapse = styled(Collapse)(() => ({
     ...tw`mb-2`,
 }));
 
+
 export default function NoticesPage() {
     const [notices, setNotices] = useState<Notice[]>([]);
     const [openNoticeIndex, setOpenNoticeIndex] = useState<number | null>(null);
@@ -66,6 +69,7 @@ export default function NoticesPage() {
         // Load notices from localStorage
         const savedNotices = JSON.parse(localStorage.getItem('notices') || '[]');
         setNotices(savedNotices);
+        setNotices(dummyNotices);
 
         // Clear notices from localStorage
         localStorage.setItem('notices', '[]');

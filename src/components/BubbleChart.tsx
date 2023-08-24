@@ -1,13 +1,20 @@
 // @ts-nocheck
 import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
+import {style} from "d3";
+
 
 interface BubbleData {
     name: string;
     value: number;
 }
 
+//colors for the bubbles, need to do this dynamically later
+const colors = ["#cc3300", "#ff8c66", "#999900", "#ffff80", "#1a651a", "#5dd55d"]
+const colors2 = ["#5dd55d", "#1a651a", "#ffff80", "#999900", "#ff8c66", "#cc3300",]
+
 const BubbleChart = ({ data }: { data: BubbleData[] }) => {
+
     const ref = useRef<SVGSVGElement | null>(null);
 
     useEffect(() => {
@@ -40,6 +47,46 @@ const BubbleChart = ({ data }: { data: BubbleData[] }) => {
         // Adjust radius values
         root.each(d => d.r = radiusScale(d.value));
 
+        const sortData = (data: BubbleData[]) => {
+            //create dictionary object to store data in
+            let dict: {} = {}
+
+            //fill dict with device data
+            data.forEach((element) => {if(element.value !== 0) {dict[element.name] = element.value}})
+
+            // sort and return dict
+            let entries: {} = Object.entries(dict)
+            return entries.sort((x,y) => x[1] - y[1]);
+        }
+        const createColorDict = (data: {}) => {
+            let colorDict: {} = {}
+
+            //set colors for each device
+            for (let i: number =0; i< data.length; i++) {
+                let name: string = data[i][0]
+                colorDict[name] = colors2[i]
+            }
+
+            //hardcode largest user to red
+            colorDict[Object.keys(colorDict)[Object.keys(colorDict).length -1]] = "red"
+
+            return colorDict
+        }
+        const getColor = (name: String) => {
+            //create device color dict
+            let colorDict = createColorDict(sortData(data))
+            //return color corresponding with device name
+            return colorDict[name]
+        }
+
+        const getText = (value:number) => {
+            if (value === 0) {
+                return '0px'
+            } else {
+                return '25px'
+            }
+        }
+
         // Create bubbles and assign data
         const node = svg.selectAll(".node")
             .data(pack(root).leaves())
@@ -53,10 +100,12 @@ const BubbleChart = ({ data }: { data: BubbleData[] }) => {
         // Add circle for each node
         node.append("circle")
             .attr("r", 0)  // start at 0
-            .style("fill", "darkblue")
+            .style("fill", d => getColor(d.data.name))
             .on("click", d => {
                 alert(`You clicked on ${d.data.name}`);
             })
+            .on("mouseenter", d => d3.selectAll("text").style("font-size",d => getText(d.data.value)))
+            .on("mouseleave", d=> d3.selectAll("text").style("font-size", d => `${d.r * 0.2}px`))
             .transition()  // start a transition
             .duration(1000)  // for 1 second
             .attr("r", d => d.r);  // grow the radius to its final size
@@ -65,8 +114,13 @@ const BubbleChart = ({ data }: { data: BubbleData[] }) => {
         node.append("text")
             .text(d => d.data.name)
             .attr("text-anchor", "middle")
-            .style("fill", "#fff")
-            .style("font-size", d => `${d.r * 0.2}px`);
+            .style("fill", "black")
+            .style("font-size", d => `${d.r * 0.2}px`)
+            .on("mouseenter", d => d3.selectAll("text").style("font-size",d => getText(d.data.value)))
+            .on("mouseleave", d=> d3.selectAll("text").style("font-size", d => `${d.r * 0.2}px`));
+
+
+
 
         // Add background circles for watt values and labels
         // const wattValues = [250, 500, 1000];

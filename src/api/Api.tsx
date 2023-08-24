@@ -37,5 +37,5 @@ export const getPredict = () => {
 }
 
 export const getPredictions5m = (dataset: string) => {
-    return axios.get(`${API_BASE_URL}/api/predictions?dataset=${dataset}`);
+    return axios.get(`${API_BASE_URL}/api/predictions?dataset=${dataset}&model_id=test&model_type=fhmm`);
 }

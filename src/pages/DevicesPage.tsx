@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import Layout from "../components/Layout";
-import {Grid, CircularProgress, Box, Typography, LinearProgress} from "@mui/material";
+import {Grid, CircularProgress, Box, Typography, LinearProgress, Button} from "@mui/material";
 import Device from "../components/Device";
 import { getPredictions5m } from '../api/Api';
 import { Notice } from '../components/types';
@@ -9,6 +9,8 @@ import BubbleChart from "../components/BubbleChart";
 import { IconButton } from "@mui/material";
 import {faArrowsRotate} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import device from "../components/Device";
+import {local} from "d3";
 
 
 
@@ -38,6 +40,10 @@ const DevicesPage = () => {
     const { setNewNotices } = context;
 
     const fetchData = async () => {
+
+        // @ts-ignore
+        localStorage.setItem("sync", lastSynced?.toLocaleTimeString())
+
         setIsLoading(true);
         try {
             const dataset = "levi";
@@ -48,6 +54,10 @@ const DevicesPage = () => {
             }
 
             const data: ApiResponse = response.data;
+
+            for (const [key] of Object.entries(data.images)) {
+                localStorage.setItem("feedback " + key, "true")
+            }
 
             const updatedList: Record<string, DeviceData> = {};
 
@@ -71,10 +81,12 @@ const DevicesPage = () => {
                 }
             });
 
-            for (let i = 1; i <= 4; i++) {
-                updatedList[`Dummy Device ${i}`] = {
+            const dummyDevices: string[] = ["EV", "airconditioning", "washing machine", "quooker"]
+
+            for (let i = 0; i <= 3; i++) {
+                updatedList[dummyDevices[i]] = {
                     image: undefined,
-                    name: `Dummy Device ${i}`,
+                    name: dummyDevices[i],
                     state: "disabled",
                     value: 0,
                 };
@@ -87,6 +99,8 @@ const DevicesPage = () => {
             prevDevicesList.current = devicesList;
             setDevicesList(updatedList);
             setLastSynced(new Date());
+
+
         } catch (error) {
             console.error("Error fetching data: ", error);
         } finally {
