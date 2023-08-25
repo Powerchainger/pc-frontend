@@ -141,7 +141,7 @@ const DevicesPage = () => {
                         Last synced at: {lastSynced?.toLocaleString()}
                     </Typography>
                 </Box>
-                <BubbleChart data={Object.entries(devicesList).map(([name, deviceData]) => ({ name, value: deviceData.value }))} />
+                <BubbleChart data={Object.entries(devicesList).filter(([_, deviceData]) => deviceData.state === 'on').map(([name, deviceData]) => ({ name, value: deviceData.value }))} />
                 <div className="border-t border-gray-300 w-full my-2"></div>
                 <Grid container spacing={2} className="w-full">
                     {Object.entries(devicesList).map(([key, value]) => (
