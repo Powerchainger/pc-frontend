@@ -51,7 +51,7 @@ export default function Sidebar() {
                 </Typography>
             </div>
             <List>
-                <Link to={"/"}>
+                <Link to={"/home"}>
                     <ListItem>
                         <ListItemPrefix>
                             <FontAwesomeIcon icon={faHouse} className="h-5 w-5" />
@@ -93,12 +93,14 @@ export default function Sidebar() {
                         Settings
                     </ListItem>
                 </Link>
-                {/*<ListItem>*/}
-                {/*    <ListItemPrefix>*/}
-                {/*        <FontAwesomeIcon icon={faPowerOff} className="h-5 w-5" />*/}
-                {/*    </ListItemPrefix>*/}
-                {/*    Log Out*/}
-                {/*</ListItem>*/}
+                <Link to={"/"}>
+                <ListItem>
+                    <ListItemPrefix>
+                        <FontAwesomeIcon icon={faPowerOff} className="h-5 w-5" />
+                    </ListItemPrefix>
+                    Log Out
+                </ListItem>
+                </Link>
             </List>
         </Card>
     );
