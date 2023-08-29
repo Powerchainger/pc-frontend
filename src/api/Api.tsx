@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Define the base URL for your API
-const API_BASE_URL = "http://146.190.226.254:8000"; // replace with your API's base URL
+const API_BASE_URL = "http://localhost:8000"; // replace with your API's base URL
 
 // Define interfaces for your data
 interface MeasurementTest {
@@ -37,5 +37,7 @@ export const getPredict = () => {
 }
 
 export const getPredictions5m = (dataset: string) => {
-    return axios.get(`${API_BASE_URL}/api/predictions?dataset=${dataset}&model_id=test&model_type=fhmm`);
+    const modelType = localStorage.getItem("selectedModel") || "fhmm"; // Default to "fhmm" if not found
+    return axios.get(`${API_BASE_URL}/api/predictions?dataset=${dataset}&model_id=test&model_type=${modelType}`);
 }
+

@@ -79,12 +79,12 @@ export default function Sidebar() {
                         </ListItemSuffix>
                     </ListItem>
                 </Link>
-                <ListItem>
-                    <ListItemPrefix>
-                        <FontAwesomeIcon icon={faUser} className="h-5 w-5" />
-                    </ListItemPrefix>
-                    Profile
-                </ListItem>
+                {/*<ListItem>*/}
+                {/*    <ListItemPrefix>*/}
+                {/*        <FontAwesomeIcon icon={faUser} className="h-5 w-5" />*/}
+                {/*    </ListItemPrefix>*/}
+                {/*    Profile*/}
+                {/*</ListItem>*/}
                 <Link to={"/settings"}>
                     <ListItem>
                         <ListItemPrefix>
@@ -93,12 +93,12 @@ export default function Sidebar() {
                         Settings
                     </ListItem>
                 </Link>
-                <ListItem>
-                    <ListItemPrefix>
-                        <FontAwesomeIcon icon={faPowerOff} className="h-5 w-5" />
-                    </ListItemPrefix>
-                    Log Out
-                </ListItem>
+                {/*<ListItem>*/}
+                {/*    <ListItemPrefix>*/}
+                {/*        <FontAwesomeIcon icon={faPowerOff} className="h-5 w-5" />*/}
+                {/*    </ListItemPrefix>*/}
+                {/*    Log Out*/}
+                {/*</ListItem>*/}
             </List>
         </Card>
     );
