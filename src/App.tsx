@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Sidebar from "./components/Sidebar";
-import Layout from "./components/Layout";
-import Guide from "./components/Guide";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
 import DevicesPage from "./pages/DevicesPage";
 import NoticesPage from "./pages/NoticesPage";
 import NewNoticesContext from './hooks/NewNoticesContext';
@@ -26,7 +23,8 @@ function App() {
         <NewNoticesContext.Provider value={{ newNotices, setNewNotices }}> {/* Add the Provider */}
             <Router>
                 <Routes>
-                    <Route path="/" element={<HomePage />} />
+                    <Route path="/" element={<LoginPage />} />
+                    <Route path="/home" element={<HomePage />} />
                     <Route path="/devices" element={<DevicesPage />} />
                     <Route path="/notices" element={<NoticesPage />} />
                     <Route path="/settings" element={<SettingsPage />} />
