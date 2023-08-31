@@ -1,7 +1,6 @@
 // @ts-nocheck
 import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
-import {style} from "d3";
 
 
 interface BubbleData {
@@ -10,7 +9,8 @@ interface BubbleData {
 }
 
 //colors for the bubbles, need to do this dynamically later
-const colors = ["#89CFF0", "#A1CAF1", "#91A3B0", "#6A5ACD", "#778899", "#708090"];
+const colors = ["#708090", "#778899", "#6A5ACD","#91A3B0", "#A1CAF1", "#89CFF0"];
+
 
 const BubbleChart = ({ data }: { data: BubbleData[] }) => {
 
@@ -53,17 +53,36 @@ const BubbleChart = ({ data }: { data: BubbleData[] }) => {
             return size;
         };
 
-        const getColor = (index: number) => {
-            return colors[index % colors.length];
+        const sortData = (data: BubbleData[]) => {
+            //create dictionary object to store data in
+            let dict: {} = {}
+
+            //fill dict with device data
+            data.forEach((element) => {if(element.value !== 0) {dict[element.name] = element.value}})
+
+            // sort and return dict
+            let entries: {} = Object.entries(dict)
+            return entries.sort((x,y) => x[1] - y[1]);
         }
+        const createColorDict = (data: {}) => {
+            let colorDict: {} = {}
 
-
-        const getText = (value:number) => {
-            if (value === 0) {
-                return '0px'
-            } else {
-                return '25px'
+            //set colors for each device
+            for (let i: number =0; i< data.length; i++) {
+                let name: string = data[i][0]
+                colorDict[name] = colors[i]
             }
+
+            //hardcode largest user to red
+            colorDict[Object.keys(colorDict)[Object.keys(colorDict).length -1]] = "red"
+
+            return colorDict
+        }
+        const getColor = (name: String) => {
+            //create device color dict
+            let colorDict = createColorDict(sortData(data))
+            //return color corresponding with device name
+            return colorDict[name]
         }
 
         // Create bubbles and assign data
@@ -76,7 +95,7 @@ const BubbleChart = ({ data }: { data: BubbleData[] }) => {
         // Add circle for each node
         node.append("circle")
             .attr("r", 0)  // start at 0
-            .style("fill", (d, i) => getColor(i))
+            .style("fill", (d) => getColor(d.name))
             .on("click", d => {
                 alert(`You clicked on ${d.data.name}`);
             })
