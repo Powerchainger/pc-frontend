@@ -36,8 +36,11 @@ export const getPredict = () => {
     return axios.get(`${API_BASE_URL}/api/predict`);
 }
 
-export const getPredictions5m = (dataset: string) => {
+export const getPredictions5m = () => {
     const modelType = localStorage.getItem("selectedModel") || "fhmm";
-    return axios.get(`${API_BASE_URL}/api/predictions?dataset=${dataset}&model_id=test&model_type=${modelType}`);
+    const model_id = modelType === "fhmm" ? "test" : "optModel_levi";
+    const dataset = modelType === "fhmm" ? "levi" : "levi";
+    const encodedModelId = encodeURIComponent(model_id);
+    return axios.get(`${API_BASE_URL}/api/predictions?dataset=${dataset}&model_id=${encodedModelId}&model_type=${modelType}`);
 }
 

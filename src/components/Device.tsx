@@ -86,9 +86,10 @@ const Device: React.FC<DeviceProps> = ({ name = "device", state = "off", image }
                 >
                     <img
                         style={{ maxWidth: "100%", height: "auto" }}
-                        src={`http://146.190.226.254:5000/` + String(image).slice(1)}
+                        src={`http://http://demo.powerchainger.nl:5000/` + String(image).slice(1)}
                         alt="image"
                     />
+                    <p>{`http://demo.powerchainger.nl:5000/` + String(image).slice(1)}</p>
                         {showFeedback?
                             <div><Typography variant={"h6"}>Is this prediction correct?</Typography>
                                 <Button onClick={handleFeedbackYes}>yes</Button>

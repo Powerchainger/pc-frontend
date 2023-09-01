@@ -38,6 +38,7 @@ const DevicesPage = () => {
         throw new Error('DevicesPage must be used within a NewNoticesContext.Provider');
     }
     const { setNewNotices } = context;
+    const modelType = localStorage.getItem("selectedModel") || "fhmm";
 
     const fetchData = async () => {
 
@@ -47,7 +48,7 @@ const DevicesPage = () => {
         setIsLoading(true);
         try {
             const dataset = "levi";
-            const response = await getPredictions5m(dataset);
+            const response = await getPredictions5m();
 
             if (!response || !response.data) {
                 throw new Error("No response from server");
@@ -156,7 +157,6 @@ const DevicesPage = () => {
     return (
         <Layout>
             <div className="w-full">
-
                 <Box
                     display="flex"
                     justifyContent="flex-start"
@@ -166,7 +166,7 @@ const DevicesPage = () => {
                     right={2}
                 >
                     {isLoading && (
-                        <LinearProgress style={{ width: '100px', marginRight: '10px' }} />
+                        <LinearProgress style={{ width: '100px', marginRight: '10px', marginLeft: '10px' }} />
                     )}
                     <IconButton
                         onClick={fetchData}
@@ -175,16 +175,18 @@ const DevicesPage = () => {
                     >
                         <FontAwesomeIcon icon={faArrowsRotate} className="h-5 w-5" />
                     </IconButton>
-
                     <Typography variant="subtitle2" align="right">
                         Last synced at: {lastSynced?.toLocaleString()}
                     </Typography>
                 </Box>
                 <BubbleChart data={Object.entries(devicesList).filter(([_, deviceData]) => deviceData.state === 'on').map(([name, deviceData]) => ({ name, value: deviceData.value }))} />
+                <Typography variant="caption" mx={"15px"}>
+                    Model: {modelType}
+                </Typography>
                 <div className="border-t border-gray-300 w-full my-2" />
-                <Button variant="contained" color="primary" onClick={addTestDevice}>
-                    Add Test Device
-                </Button>
+                {/*<Button variant="contained" color="primary" onClick={addTestDevice}>*/}
+                {/*    Add Test Device*/}
+                {/*</Button>*/}
 
                 <div className="max-h-[350px] overflow-y-scroll p-2 rounded-md relative">
                     <Grid container spacing={2} className="w-full">

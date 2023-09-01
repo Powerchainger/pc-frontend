@@ -93,7 +93,7 @@ const BubbleChart = ({ data }: { data: BubbleData[] }) => {
             .attr("r", d => d.r)
             .ease(d3.easeElastic.period(0.6));
 
-        node.each(function (d) {
+        node.each(function (d, i) {
             const g = d3.select(this);
             const r = d.r;
             const text = d.data.name;
@@ -107,7 +107,7 @@ const BubbleChart = ({ data }: { data: BubbleData[] }) => {
                     .style("text-anchor", "middle")
                     .style("fill", "black");
             } else {
-                const angle = -Math.PI / 4;
+                const angle = (i % 2 === 0) ? -Math.PI / 4 : Math.PI / 4;
                 const lineLength = r + textSize.width;
                 const x1 = r * Math.cos(angle);
                 const y1 = r * Math.sin(angle);
@@ -123,7 +123,7 @@ const BubbleChart = ({ data }: { data: BubbleData[] }) => {
 
                 g.append("text")
                     .attr("x", x2 + 3)
-                    .attr("y", y2 - 3)
+                    .attr("y", angle > 0 ? y2 + 15 : y2 - 3)
                     .text(text)
                     .style("text-anchor", "middle")
                     .style("fill", "black");
