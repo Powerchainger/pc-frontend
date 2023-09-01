@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import BackgroundImage from '../../public/LoginImage.jpg'
+import BackgroundImage from '../LoginImage.jpg'
 import {useNavigate} from "react-router-dom";
 
 function Copyright(props: any) {
@@ -124,7 +124,7 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
+              {/*<Copyright sx={{ mt: 5 }} />*/}
             </Box>
           </Box>
         </Grid>

@@ -27,3 +27,40 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.scroll-gradient-bottom, .scroll-gradient-top {
+  position: absolute;
+  width: 100%;
+  height: 50px;
+  z-index: 10;
+}
+
+.scroll-gradient-bottom {
+  background: linear-gradient(to top, gray, transparent);
+  position: absolute;
+  bottom: 0;
+}
+
+.scroll-gradient-top {
+  background: linear-gradient(to bottom, gray, transparent);
+  position: absolute;
+  top: 0;
+}
+
+
+@keyframes spotlight {
+  0%, 100% {
+    background: none;
+  }
+  50% {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+#tooltip {
+  position: absolute;
+  background: white;
+  border: 1px solid gray;
+  padding: 5px;
+  opacity: 0;
+}

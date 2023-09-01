@@ -6,7 +6,9 @@ import LoginPage from "./pages/LoginPage";
 import DevicesPage from "./pages/DevicesPage";
 import NoticesPage from "./pages/NoticesPage";
 import NewNoticesContext from './hooks/NewNoticesContext';
-import SettingsPage from "./pages/SettingsPage"; // Import the context
+import SettingsPage from "./pages/SettingsPage";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const [newNotices, setNewNotices] = useState(0); // Define the newNotices state
@@ -29,6 +31,7 @@ function App() {
                     <Route path="/notices" element={<NoticesPage />} />
                     <Route path="/settings" element={<SettingsPage />} />
                 </Routes>
+                <ToastContainer />
             </Router>
         </NewNoticesContext.Provider>
     );

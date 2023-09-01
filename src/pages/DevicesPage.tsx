@@ -11,7 +11,7 @@ import {faArrowsRotate} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import device from "../components/Device";
 import {local} from "d3";
-
+import { toast } from 'react-toastify';
 
 
 interface DeviceData {
@@ -68,7 +68,7 @@ const DevicesPage = () => {
                     image: data.images[key],
                     name: key,
                     state: value > 0 ? "on" : "off",
-                    value: value, // Assign the energy consumption value
+                    value: value,
                 };
 
                 if (value > 500 && (!prevDevicesList.current[key] || prevDevicesList.current[key].state !== "on")) {
@@ -79,9 +79,14 @@ const DevicesPage = () => {
                         extra: `${key} has been identified as a high energy consumer. It is recommended to ensure ${key} is not operating during unintended periods.`
                     });
                 }
+
+                if (value > 1 && (!prevDevicesList.current[key] || prevDevicesList.current[key].state !== "on")) {
+                    console.log(`Device ${key} is considered for toast:`, prevDevicesList.current[key]);
+                    toast(`${key} has turned on!`);
+                }
             });
 
-            const dummyDevices: string[] = ["EV", "airconditioning", "washing machine", "quooker"]
+            const dummyDevices: string[] = ["EV", "air conditioner", "washing machine", "quooker"]
 
             for (let i = 0; i <= 3; i++) {
                 updatedList[dummyDevices[i]] = {
@@ -95,11 +100,24 @@ const DevicesPage = () => {
             const savedNotices = JSON.parse(localStorage.getItem('notices') || '[]');
             localStorage.setItem('notices', JSON.stringify([...savedNotices, ...newNotices]));
 
+            updatedList["test-device-1"] = {
+                image: "path/to/test/image1.jpg",
+                name: "Test Device 1",
+                state: "on",
+                value: 350,
+            };
+
+            updatedList["test-device-2"] = {
+                image: "path/to/test/image2.jpg",
+                name: "Test Device 2",
+                state: "on",
+                value: 15,
+            };
+
             setNewNotices(prevNotices => prevNotices + newNotices.length);
-            prevDevicesList.current = devicesList;
+            prevDevicesList.current = updatedList;
             setDevicesList(updatedList);
             setLastSynced(new Date());
-
 
         } catch (error) {
             console.error("Error fetching data: ", error);
@@ -108,6 +126,26 @@ const DevicesPage = () => {
         }
 
     };
+
+    const addTestDevice = () => {
+        prevDevicesList.current['test-device-3'] = {
+            image: 'test-image-url',
+            name: 'Test Device 3',
+            state: 'off',
+            value: 0,
+        };
+
+        setDevicesList((prevDevicesList) => ({
+            ...prevDevicesList,
+            'test-device-3': {
+                image: 'test-image-url',
+                name: 'Test Device',
+                state: 'on',
+                value: 250,
+            },
+        }));
+    };
+
 
     useEffect(() => {
         fetchData();
@@ -118,6 +156,7 @@ const DevicesPage = () => {
     return (
         <Layout>
             <div className="w-full">
+
                 <Box
                     display="flex"
                     justifyContent="flex-start"
@@ -142,18 +181,24 @@ const DevicesPage = () => {
                     </Typography>
                 </Box>
                 <BubbleChart data={Object.entries(devicesList).filter(([_, deviceData]) => deviceData.state === 'on').map(([name, deviceData]) => ({ name, value: deviceData.value }))} />
-                <div className="border-t border-gray-300 w-full my-2"></div>
-                <Grid container spacing={2} className="w-full">
-                    {Object.entries(devicesList).map(([key, value]) => (
-                        <Grid item xs={4} key={key} className={`bg-gradient-${value.state}`}>
-                            <Device
-                                name={value.name}
-                                image={value.image}
-                                state={value.state}
-                            />
-                        </Grid>
-                    ))}
-                </Grid>
+                <div className="border-t border-gray-300 w-full my-2" />
+                <Button variant="contained" color="primary" onClick={addTestDevice}>
+                    Add Test Device
+                </Button>
+
+                <div className="max-h-[350px] overflow-y-scroll p-2 rounded-md relative">
+                    <Grid container spacing={2} className="w-full">
+                        {Object.entries(devicesList).map(([key, value]) => (
+                            <Grid item xs={4} key={key} className={`bg-gradient-${value.state}`}>
+                                <Device
+                                    name={value.name}
+                                    image={value.image}
+                                    state={value.state}
+                                />
+                            </Grid>
+                        ))}
+                    </Grid>
+                </div>
             </div>
         </Layout>
     );

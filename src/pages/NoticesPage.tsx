@@ -69,7 +69,7 @@ export default function NoticesPage() {
         // Load notices from localStorage
         const savedNotices = JSON.parse(localStorage.getItem('notices') || '[]');
         setNotices(savedNotices);
-        setNotices(dummyNotices);
+        // setNotices(dummyNotices);
 
         // Clear notices from localStorage
         localStorage.setItem('notices', '[]');
@@ -85,7 +85,7 @@ export default function NoticesPage() {
                                 <ListItem>
                                     <StyledButton onClick={() => handleClick(index)}>
                                         <DeviceText>{notice.device}</DeviceText>&nbsp;
-                                        <NoticeText>&nbsp;was turned on at {notice.time}. It was measured at&nbsp;</NoticeText>
+                                        <NoticeText>&nbsp;was turned on at {notice.time}. It was predicted at&nbsp;</NoticeText>
                                         <WattageText>{notice.wattage}</WattageText>
                                         <NoticeText>&nbsp;watts.</NoticeText>
                                     </StyledButton>

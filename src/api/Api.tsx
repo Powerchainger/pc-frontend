@@ -37,7 +37,7 @@ export const getPredict = () => {
 }
 
 export const getPredictions5m = (dataset: string) => {
-    const modelType = localStorage.getItem("selectedModel") || "fhmm"; // Default to "fhmm" if not found
+    const modelType = localStorage.getItem("selectedModel") || "fhmm";
     return axios.get(`${API_BASE_URL}/api/predictions?dataset=${dataset}&model_id=test&model_type=${modelType}`);
 }
 

@@ -48,10 +48,14 @@ const Device: React.FC<DeviceProps> = ({ name = "device", state = "off", image }
             .then(response => console.log(response.text()))
     }
 
-    let borderColor = state !== "off" ? "success.main" : "error.main"
+    let borderColor;
 
-    if (state === 'disabled') {
-        borderColor = "info.main"
+    if (state === 'on') {
+        borderColor = "success.main";
+    } else if (state === 'off') {
+        borderColor = "error.main";
+    } else {
+        borderColor = "grey.500";
     }
 
     const renderSwitch = (param: string) => {
@@ -65,8 +69,6 @@ const Device: React.FC<DeviceProps> = ({ name = "device", state = "off", image }
         }
     };
 
-    // @ts-ignore
-    // @ts-ignore
     return (
         <>
             <Card variant={"outlined"} onClick={handleClickOpen} sx={{ cursor: 'pointer', borderLeft: 5, borderLeftColor: borderColor}}>
