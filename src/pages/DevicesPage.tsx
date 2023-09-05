@@ -72,7 +72,7 @@ const DevicesPage = () => {
                     value: value,
                 };
 
-                if (value > 500 && (!prevDevicesList.current[key] || prevDevicesList.current[key].state !== "on")) {
+                if (value > 150 && (!prevDevicesList.current[key] || prevDevicesList.current[key].state !== "on")) {
                     newNotices.push({
                         device: key,
                         time: new Date().toLocaleString(),
@@ -101,21 +101,6 @@ const DevicesPage = () => {
             const savedNotices = JSON.parse(localStorage.getItem('notices') || '[]');
             localStorage.setItem('notices', JSON.stringify([...savedNotices, ...newNotices]));
 
-            updatedList["test-device-1"] = {
-                image: "path/to/test/image1.jpg",
-                name: "Test Device 1",
-                state: "on",
-                value: 350,
-            };
-
-            updatedList["test-device-2"] = {
-                image: "path/to/test/image2.jpg",
-                name: "Test Device 2",
-                state: "on",
-                value: 15,
-            };
-
-            setNewNotices(prevNotices => prevNotices + newNotices.length);
             prevDevicesList.current = updatedList;
             setDevicesList(updatedList);
             setLastSynced(new Date());
@@ -128,26 +113,6 @@ const DevicesPage = () => {
 
     };
 
-    const addTestDevice = () => {
-        prevDevicesList.current['test-device-3'] = {
-            image: 'test-image-url',
-            name: 'Test Device 3',
-            state: 'off',
-            value: 0,
-        };
-
-        setDevicesList((prevDevicesList) => ({
-            ...prevDevicesList,
-            'test-device-3': {
-                image: 'test-image-url',
-                name: 'Test Device',
-                state: 'on',
-                value: 250,
-            },
-        }));
-    };
-
-
     useEffect(() => {
         fetchData();
         const intervalId = setInterval(fetchData, 60 * 1000);
@@ -157,14 +122,20 @@ const DevicesPage = () => {
     return (
         <Layout>
             <div className="w-full">
+                <BubbleChart data={Object.entries(devicesList).filter(([_, deviceData]) => deviceData.state === 'on').map(([name, deviceData]) => ({ name, value: deviceData.value }))} />
+                <Typography variant="caption" mx={"15px"}>
+                    Model: {modelType}
+                </Typography>
                 <Box
                     display="flex"
                     justifyContent="flex-start"
                     alignItems="center"
-                    position="absolute"
                     top={2}
                     right={2}
                 >
+                    <Typography variant="caption" mx={"15px"}>
+                        Last synced at: {lastSynced?.toLocaleString()}
+                    </Typography>
                     {isLoading && (
                         <LinearProgress style={{ width: '100px', marginRight: '10px', marginLeft: '10px' }} />
                     )}
@@ -175,19 +146,8 @@ const DevicesPage = () => {
                     >
                         <FontAwesomeIcon icon={faArrowsRotate} className="h-5 w-5" />
                     </IconButton>
-                    <Typography variant="subtitle2" align="right">
-                        Last synced at: {lastSynced?.toLocaleString()}
-                    </Typography>
                 </Box>
-                <BubbleChart data={Object.entries(devicesList).filter(([_, deviceData]) => deviceData.state === 'on').map(([name, deviceData]) => ({ name, value: deviceData.value }))} />
-                <Typography variant="caption" mx={"15px"}>
-                    Model: {modelType}
-                </Typography>
                 <div className="border-t border-gray-300 w-full my-2" />
-                {/*<Button variant="contained" color="primary" onClick={addTestDevice}>*/}
-                {/*    Add Test Device*/}
-                {/*</Button>*/}
-
                 <div className="max-h-[350px] overflow-y-scroll p-2 rounded-md relative">
                     <Grid container spacing={2} className="w-full">
                         {Object.entries(devicesList).map(([key, value]) => (

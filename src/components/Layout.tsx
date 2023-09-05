@@ -1,21 +1,24 @@
-import React, { ReactNode } from "react";
+import React, {ReactNode, useState} from "react";
 import Sidebar from "./Sidebar";
+import Topbar from "./Topbar";
 
 interface LayoutProps {
     children: ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {
+    const [showSidebar, setShowSidebar] = useState(true);
+
+    const toggleSidebar = () => {
+        setShowSidebar(!showSidebar);
+    };
+
     return (
-        <div className="flex m-4">
-            <div className="">
-                <Sidebar />
-            </div>
-            <div className="flex flex-grow justify-center m-4">
-                <div>
-                    <div className="border-t border-gray-300 w-full my-2"></div>
-                    {children}
-                </div>
+        <div className="flex h-screen">
+            <Sidebar showSidebar={showSidebar} />
+            <div className="flex flex-col flex-grow">
+                <Topbar toggleSidebar={toggleSidebar} />
+                <div className="flex-grow">{children}</div>
             </div>
         </div>
     );

@@ -13,8 +13,11 @@ import { faHouse, faPlug, faBell, faUser, faGear, faPowerOff } from '@fortawesom
 import {Link, useLocation} from "react-router-dom";
 import NewNoticesContext from '../hooks/NewNoticesContext';
 
+interface SidebarProps {
+    showSidebar: boolean;
+}
 
-export default function Sidebar() {
+export default function Sidebar({ showSidebar }: SidebarProps) {
     const context = useContext(NewNoticesContext);
     if (!context) {
         throw new Error('DevicesPage must be used within a NewNoticesContext.Provider');
@@ -44,64 +47,66 @@ export default function Sidebar() {
     }, [newNotices]);
 
     return (
-        <Card className="h-[calc(100vh-2rem)] flex-1 p-0 shadow-xl shadow-blue-gray-900/5">
-            <div className="mb-2 p-4">
-                <Typography variant="h5" color="blue-gray">
-                    Dashboard
-                </Typography>
-            </div>
-            <List>
-                <Link to={"/home"}>
+        <div className={`transition-width duration-300 ease-in-out overflow-hidden ${showSidebar ? 'w-64 min-w-[16rem] max-w-[16rem]' : 'w-0 min-w-0 max-w-0'}`}>
+            <Card className="h-full flex-1 p-0">
+                <div className="my-1 p-4 flex justify-center items-center">
+                    <Typography variant="h5" color="blue-gray">
+                        Dashboard
+                    </Typography>
+                </div>
+                <List>
+                    <Link to={"/"}>
+                        <ListItem>
+                            <ListItemPrefix>
+                                <FontAwesomeIcon icon={faHouse} className="h-5 w-5" />
+                            </ListItemPrefix>
+                            Home
+                        </ListItem>
+                    </Link>
+                    <Link to={"/prediction"}>
+                        <ListItem>
+                            <ListItemPrefix>
+                                <FontAwesomeIcon icon={faPlug} className="h-5 w-5" />
+                            </ListItemPrefix>
+                            Predictions
+                        </ListItem>
+                    </Link>
+                    <hr className="my-2 border-blue-gray-50" />
+                    {/*<Link to={"/notices"}>*/}
+                    {/*    <ListItem>*/}
+                    {/*        <ListItemPrefix>*/}
+                    {/*            <FontAwesomeIcon icon={faBell} className={newNotices > 0 ? "h-5 w-5 bounce" : "h-5 w-5"} />*/}
+                    {/*        </ListItemPrefix>*/}
+                    {/*        Notices*/}
+                    {/*        <ListItemSuffix>*/}
+                    {/*            <Chip value={newNotices} size="sm" variant="ghost" color="blue-gray" className="rounded-full" />*/}
+                    {/*        </ListItemSuffix>*/}
+                    {/*    </ListItem>*/}
+                    {/*</Link>*/}
+                    {/*<ListItem>*/}
+                    {/*    <ListItemPrefix>*/}
+                    {/*        <FontAwesomeIcon icon={faUser} className="h-5 w-5" />*/}
+                    {/*    </ListItemPrefix>*/}
+                    {/*    Profile*/}
+                    {/*</ListItem>*/}
+                    {/*<Link to={"/settings"}>*/}
+                    {/*    <ListItem>*/}
+                    {/*        <ListItemPrefix>*/}
+                    {/*            <FontAwesomeIcon icon={faGear} className="h-5 w-5" />*/}
+                    {/*        </ListItemPrefix>*/}
+                    {/*        Settings*/}
+                    {/*    </ListItem>*/}
+                    {/*</Link>*/}
+                    <Link to={"/login"}>
                     <ListItem>
                         <ListItemPrefix>
-                            <FontAwesomeIcon icon={faHouse} className="h-5 w-5" />
+                            <FontAwesomeIcon icon={faPowerOff} className="h-5 w-5" />
                         </ListItemPrefix>
-                        Home
+                        Log Out
                     </ListItem>
-                </Link>
-                <Link to={"/devices"}>
-                    <ListItem>
-                        <ListItemPrefix>
-                            <FontAwesomeIcon icon={faPlug} className="h-5 w-5" />
-                        </ListItemPrefix>
-                        Devices
-                    </ListItem>
-                </Link>
-                <hr className="my-2 border-blue-gray-50" />
-                <Link to={"/notices"}>
-                    <ListItem>
-                        <ListItemPrefix>
-                            <FontAwesomeIcon icon={faBell} className={newNotices > 0 ? "h-5 w-5 bounce" : "h-5 w-5"} />
-                        </ListItemPrefix>
-                        Notices
-                        <ListItemSuffix>
-                            <Chip value={newNotices} size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
-                        </ListItemSuffix>
-                    </ListItem>
-                </Link>
-                {/*<ListItem>*/}
-                {/*    <ListItemPrefix>*/}
-                {/*        <FontAwesomeIcon icon={faUser} className="h-5 w-5" />*/}
-                {/*    </ListItemPrefix>*/}
-                {/*    Profile*/}
-                {/*</ListItem>*/}
-                <Link to={"/settings"}>
-                    <ListItem>
-                        <ListItemPrefix>
-                            <FontAwesomeIcon icon={faGear} className="h-5 w-5" />
-                        </ListItemPrefix>
-                        Settings
-                    </ListItem>
-                </Link>
-                <Link to={"/"}>
-                <ListItem>
-                    <ListItemPrefix>
-                        <FontAwesomeIcon icon={faPowerOff} className="h-5 w-5" />
-                    </ListItemPrefix>
-                    Log Out
-                </ListItem>
-                </Link>
-            </List>
-        </Card>
+                    </Link>
+                </List>
+            </Card>
+        </div>
     );
 }

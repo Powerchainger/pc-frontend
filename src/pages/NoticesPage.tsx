@@ -4,24 +4,7 @@ import { Grid, List, ListItem, Divider, Collapse, Typography, Button, Popover } 
 import { styled } from "@mui/system";
 import tw from 'twin.macro';
 import { Notice } from '../components/types';
-
-
-
-const dummyNotices: Notice[] = [
-    {
-        device: "Device A",
-        time: "10:30 AM",
-        wattage: 1000,
-        extra: "Device A has been identified as a high energy consumer. It is recommended to ensure Device A is not operating during unintended periods."
-    },
-    {
-        device: "Device B",
-        time: "11:00 AM",
-        wattage: 800,
-        extra: "Device B has been identified as a high energy consumer. It is recommended to ensure Device B is not operating during unintended periods."
-    },
-    // ... add more notices here
-];
+import {CheckCircleOutline} from "@mui/icons-material";
 
 const StyledList = styled(List)(() => ({
     ...tw`mt-8`,
@@ -79,24 +62,31 @@ export default function NoticesPage() {
         <Layout>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <StyledList>
-                        {notices.map((notice, index) => (
-                            <React.Fragment key={index}>
-                                <ListItem>
-                                    <StyledButton onClick={() => handleClick(index)}>
-                                        <DeviceText>{notice.device}</DeviceText>&nbsp;
-                                        <NoticeText>&nbsp;was turned on at {notice.time}. It was predicted at&nbsp;</NoticeText>
-                                        <WattageText>{notice.wattage}</WattageText>
-                                        <NoticeText>&nbsp;watts.</NoticeText>
-                                    </StyledButton>
-                                </ListItem>
-                                <StyledCollapse in={Boolean(openNoticeIndex === index)} timeout="auto" unmountOnExit>
-                                    <ExtraText>{notice.extra}</ExtraText>
-                                </StyledCollapse>
-                                <Divider variant="inset" component="li" />
-                            </React.Fragment>
-                        ))}
-                    </StyledList>
+                    {notices.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center h-full">
+                            <CheckCircleOutline className="text-green-500" />
+                            <Typography variant="h6">No notices right now!</Typography>
+                        </div>
+                    ) : (
+                        <StyledList>
+                            {notices.map((notice, index) => (
+                                <React.Fragment key={index}>
+                                    <ListItem>
+                                        <StyledButton onClick={() => handleClick(index)}>
+                                            <DeviceText>{notice.device}</DeviceText>&nbsp;
+                                            <NoticeText>&nbsp;was turned on at {notice.time}. It was predicted at&nbsp;</NoticeText>
+                                            <WattageText>{notice.wattage}</WattageText>
+                                            <NoticeText>&nbsp;watts.</NoticeText>
+                                        </StyledButton>
+                                    </ListItem>
+                                    <StyledCollapse in={Boolean(openNoticeIndex === index)} timeout="auto" unmountOnExit>
+                                        <ExtraText>{notice.extra}</ExtraText>
+                                    </StyledCollapse>
+                                    <Divider variant="inset" component="li" />
+                                </React.Fragment>
+                            ))}
+                        </StyledList>
+                    )}
                 </Grid>
             </Grid>
         </Layout>

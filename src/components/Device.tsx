@@ -71,13 +71,48 @@ const Device: React.FC<DeviceProps> = ({ name = "device", state = "off", image }
 
     return (
         <>
-            <Card variant={"outlined"} onClick={handleClickOpen} sx={{ cursor: 'pointer', borderLeft: 5, borderLeftColor: borderColor}}>
+            <Card
+                variant={"outlined"}
+                onClick={handleClickOpen}
+                sx={{
+                    cursor: 'pointer',
+                    borderLeft: 5,
+                    borderLeftColor: borderColor,
+                    display: 'flex',
+                    justifyContent: 'space-between'
+                }}
+            >
                 <CardContent>
                     <Typography variant={"h6"}>{name}</Typography>
                     <Typography variant={"body2"}>Current status: </Typography>
                     {renderSwitch(state)}
                 </CardContent>
+                {state !== 'disabled' && (
+                    <Box
+                        sx={{
+                            padding: 2,
+                            alignSelf: 'center',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {showFeedback ? (
+                            <>
+                                <Typography variant={"caption"}>Is this prediction accurate?</Typography>
+                                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                                    <Button size="small" onClick={handleFeedbackYes}>yes</Button>
+                                    <Button size="small" onClick={handleFeedbackNo}>no</Button>
+                                </Box>
+                            </>
+                        ) : (
+                            <Typography variant={"body2"}>Thanks!</Typography>
+                        )}
+                    </Box>
+                )}
             </Card>
+
             {state !== 'disabled' && (
                 <Dialog
                     open={open}
@@ -90,15 +125,6 @@ const Device: React.FC<DeviceProps> = ({ name = "device", state = "off", image }
                         alt="image"
                     />
                     <p>{`http://demo.powerchainger.nl:5000/` + String(image).slice(1)}</p>
-                        {showFeedback?
-                            <div><Typography variant={"h6"}>Is this prediction correct?</Typography>
-                                <Button onClick={handleFeedbackYes}>yes</Button>
-                                <Button onClick={handleFeedbackNo}>no</Button>
-                            </div>:null
-                        }
-                        {!showFeedback?
-                            <Typography variant={"h6"}>Thanks for your feedback!</Typography>:null
-                        }
                 </Dialog>
             )}
         </>

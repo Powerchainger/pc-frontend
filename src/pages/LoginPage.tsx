@@ -36,11 +36,12 @@ export default function SignInSide() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    if (data.get("username") === "levi" && data.get("password") === "test123") {
-        setCorrectLogin(true)
-        navigate('/home')
-    }
-        setCorrectLogin(false)
+      if (data.get("username") === "levi" && data.get("password") === "test123") {
+          localStorage.setItem('isLoggedIn', 'true');
+          setCorrectLogin(true);
+          navigate('/');
+      }
+      setCorrectLogin(false)
   };
 
   return (
