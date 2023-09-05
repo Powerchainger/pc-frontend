@@ -27,7 +27,7 @@ export default function Topbar({ toggleSidebar }: TopbarProps) {
 
     return (
         <div className="flex flex-col w-full">
-            <AppBar position="static" color="primary">
+            <AppBar position="static" className="bg-gradient-to-r from-blue-400 to-blue-700">
                 <Toolbar className="flex justify-start">
                     <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleSidebar}>
                         <MenuIcon />
