@@ -10,6 +10,8 @@ interface DeviceProps {
 const Device: React.FC<DeviceProps> = ({ name = "device", state = "off", image }) => {
     const [open, setOpen] = useState(false);
     const [showFeedback, setShowFeedback] = useState(true)
+    const modelType = localStorage.getItem("selectedModel") || "fhmm";
+
     const handleClickOpen = () => {
         setOpen(true);
         if (localStorage.getItem("feedback " + name) === "true") {
@@ -74,6 +76,7 @@ const Device: React.FC<DeviceProps> = ({ name = "device", state = "off", image }
             <Card
                 variant={"outlined"}
                 onClick={handleClickOpen}
+                className="group cursor-pointer flex justify-between border-l-4 transition-all duration-100 ease-in-out"
                 sx={{
                     cursor: 'pointer',
                     borderLeft: 5,
@@ -87,8 +90,9 @@ const Device: React.FC<DeviceProps> = ({ name = "device", state = "off", image }
                     <Typography variant={"body2"}>Current status: </Typography>
                     {renderSwitch(state)}
                 </CardContent>
-                {state !== 'disabled' && (
+                {state !== 'disabled' && modelType === "convexopt" && (  // Check modelType here
                     <Box
+                        className="opacity-0 group-hover:opacity-100 transition-opacity"
                         sx={{
                             padding: 2,
                             alignSelf: 'center',
@@ -107,7 +111,7 @@ const Device: React.FC<DeviceProps> = ({ name = "device", state = "off", image }
                                 </Box>
                             </>
                         ) : (
-                            <Typography variant={"body2"}>Thanks!</Typography>
+                            <Typography variant={"body2"}>Thank you for your feedback!</Typography>
                         )}
                     </Box>
                 )}
@@ -121,10 +125,9 @@ const Device: React.FC<DeviceProps> = ({ name = "device", state = "off", image }
                 >
                     <img
                         style={{ maxWidth: "100%", height: "auto" }}
-                        src={`http://http://demo.powerchainger.nl:5000/` + String(image).slice(1)}
+                        src={`http://demo.powerchainger.nl:5000/` + String(image).slice(1)}
                         alt="image"
                     />
-                    <p>{`http://demo.powerchainger.nl:5000/` + String(image).slice(1)}</p>
                 </Dialog>
             )}
         </>

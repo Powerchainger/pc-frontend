@@ -33,7 +33,7 @@ function App() {
                         <Route path="/settings" element={<SettingsPage />} />
                     </Routes>
                 </AuthWrapper>
-                <ToastContainer />
+                <ToastContainer style={{ top: '60px' }} />
             </Router>
         </NewNoticesContext.Provider>
     );

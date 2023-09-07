@@ -1,17 +1,17 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, {useEffect, useState, useRef, useContext} from "react";
 import Layout from "../components/Layout";
 import {Grid, CircularProgress, Box, Typography, LinearProgress, Button} from "@mui/material";
 import Device from "../components/Device";
-import { getPredictions5m } from '../api/Api';
-import { Notice } from '../components/types';
+import {getPredictions5m} from '../api/Api';
+import {Notice} from '../components/types';
 import NewNoticesContext from '../hooks/NewNoticesContext';
 import BubbleChart from "../components/BubbleChart";
-import { IconButton } from "@mui/material";
+import {IconButton} from "@mui/material";
 import {faArrowsRotate} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import device from "../components/Device";
 import {local} from "d3";
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 
 
 interface DeviceData {
@@ -25,6 +25,7 @@ interface DeviceData {
 interface ApiResponse {
     device_states: Record<string, number>;
     images: Record<string, string>;
+
     [key: string]: any;
 }
 
@@ -37,7 +38,7 @@ const DevicesPage = () => {
     if (!context) {
         throw new Error('DevicesPage must be used within a NewNoticesContext.Provider');
     }
-    const { setNewNotices } = context;
+    const {setNewNotices} = context;
     const modelType = localStorage.getItem("selectedModel") || "fhmm";
 
     const fetchData = async () => {
@@ -72,17 +73,13 @@ const DevicesPage = () => {
                     value: value,
                 };
 
-                if (value > 150 && (!prevDevicesList.current[key] || prevDevicesList.current[key].state !== "on")) {
+                if (value > 700 && (!prevDevicesList.current[key] || prevDevicesList.current[key].state !== "on")) {
                     newNotices.push({
                         device: key,
                         time: new Date().toLocaleString(),
                         wattage: value,
                         extra: `${key} has been identified as a high energy consumer. It is recommended to ensure ${key} is not operating during unintended periods.`
                     });
-                }
-
-                if (value > 1 && (!prevDevicesList.current[key] || prevDevicesList.current[key].state !== "on")) {
-                    console.log(`Device ${key} is considered for toast:`, prevDevicesList.current[key]);
                     toast(`${key} has turned on!`);
                 }
             });
@@ -100,6 +97,8 @@ const DevicesPage = () => {
 
             const savedNotices = JSON.parse(localStorage.getItem('notices') || '[]');
             localStorage.setItem('notices', JSON.stringify([...savedNotices, ...newNotices]));
+            localStorage.setItem('cachedDevicesList', JSON.stringify(updatedList));
+            localStorage.setItem('cachedLastSynced', JSON.stringify(new Date()));
 
             prevDevicesList.current = updatedList;
             setDevicesList(updatedList);
@@ -114,6 +113,14 @@ const DevicesPage = () => {
     };
 
     useEffect(() => {
+        const cachedDevicesList = localStorage.getItem('cachedDevicesList');
+        const cachedLastSynced = localStorage.getItem('cachedLastSynced');
+
+        if (cachedDevicesList && cachedLastSynced) {
+            setDevicesList(JSON.parse(cachedDevicesList));
+            setLastSynced(new Date(JSON.parse(cachedLastSynced)));
+        }
+
         fetchData();
         const intervalId = setInterval(fetchData, 60 * 1000);
         return () => clearInterval(intervalId);
@@ -122,7 +129,11 @@ const DevicesPage = () => {
     return (
         <Layout>
             <div className="w-full">
-                <BubbleChart data={Object.entries(devicesList).filter(([_, deviceData]) => deviceData.state === 'on').map(([name, deviceData]) => ({ name, value: deviceData.value }))} />
+                <BubbleChart
+                    data={Object.entries(devicesList).filter(([_, deviceData]) => deviceData.state === 'on').map(([name, deviceData]) => ({
+                        name,
+                        value: deviceData.value
+                    }))}/>
                 <Typography variant="caption" mx={"15px"}>
                     Model: {modelType}
                 </Typography>
@@ -137,17 +148,17 @@ const DevicesPage = () => {
                         Last synced at: {lastSynced?.toLocaleString()}
                     </Typography>
                     {isLoading && (
-                        <LinearProgress style={{ width: '100px', marginRight: '10px', marginLeft: '10px' }} />
+                        <LinearProgress style={{width: '100px', marginRight: '10px', marginLeft: '10px'}}/>
                     )}
                     <IconButton
                         onClick={fetchData}
                         disabled={isLoading}
                         className="transition-transform duration-500 hover:rotate-360"
                     >
-                        <FontAwesomeIcon icon={faArrowsRotate} className="h-5 w-5" />
+                        <FontAwesomeIcon icon={faArrowsRotate} className="h-5 w-5"/>
                     </IconButton>
                 </Box>
-                <div className="border-t border-gray-300 w-full my-2" />
+                <div className="border-t border-gray-300 w-full my-2"/>
                 <div className="max-h-[350px] overflow-y-scroll p-2 rounded-md relative">
                     <Grid container spacing={2} className="w-full">
                         {Object.entries(devicesList).map(([key, value]) => (

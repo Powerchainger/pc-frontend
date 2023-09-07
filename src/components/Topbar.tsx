@@ -5,6 +5,7 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faBell, faGear, faCircleInfo} from "@fortawesome/free-solid-svg-icons";
 import { CheckCircleOutline } from '@mui/icons-material';
+import Guide from './Guide';
 
 interface TopbarProps {
     toggleSidebar: () => void;
@@ -15,6 +16,7 @@ export default function Topbar({ toggleSidebar }: TopbarProps) {
     const newNotices = notices.length;
     const location = useLocation();
     const pathnames = location.pathname.split('/').filter((x) => x && x !== 'login');
+    const [showGuide, setShowGuide] = useState(false);
 
     const [anchorEl, setAnchorEl] = useState(null);
     const handleClick = (event: any) => {
@@ -25,10 +27,15 @@ export default function Topbar({ toggleSidebar }: TopbarProps) {
         localStorage.setItem('notices', '[]');
     };
 
+    const toggleGuide = () => {
+        setShowGuide(!showGuide);
+    };
+
+
     return (
         <div className="flex flex-col w-full">
-            <AppBar position="static" className="bg-gradient-to-r from-blue-400 to-blue-700">
-                <Toolbar className="flex justify-start">
+            <AppBar position="static" className="bg-gradient-to-r from-blue-600 to-blue-800 shadow-md">
+            <Toolbar className="flex justify-start">
                     <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleSidebar}>
                         <MenuIcon />
                     </IconButton>
@@ -70,8 +77,8 @@ export default function Topbar({ toggleSidebar }: TopbarProps) {
                                 <FontAwesomeIcon icon={faGear} />
                             </IconButton>
                         </Link>
-                        <Link color="inherit" component={RouterLink} to="/settings">
-                            <IconButton color="inherit">
+                        <Link color="inherit">
+                            <IconButton color="inherit" onClick={toggleGuide}>
                                 <FontAwesomeIcon icon={faCircleInfo} />
                             </IconButton>
                         </Link>
@@ -110,6 +117,11 @@ export default function Topbar({ toggleSidebar }: TopbarProps) {
                     </div>
                 </Toolbar>
             </AppBar>
+            {showGuide && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <Guide onClose={toggleGuide} forceShow={showGuide} />
+                </div>
+            )}
         </div>
     );
 }

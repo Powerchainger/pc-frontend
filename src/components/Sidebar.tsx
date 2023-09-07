@@ -47,7 +47,7 @@ export default function Sidebar({ showSidebar }: SidebarProps) {
     }, [newNotices]);
 
     return (
-        <div className={`transition-width duration-300 ease-in-out overflow-hidden ${showSidebar ? 'w-64 min-w-[16rem] max-w-[16rem]' : 'w-0 min-w-0 max-w-0'}`}>
+        <div className={`transition-width duration-300 ease-in-out overflow-hidden ${showSidebar ? 'min-w-[14rem] max-w-[16rem]' : 'w-0 min-w-0 max-w-0'}`}>
             <Card className="h-full flex-1 p-0">
                 <div className="my-1 p-4 flex justify-center items-center">
                     <Typography variant="h5" color="blue-gray">

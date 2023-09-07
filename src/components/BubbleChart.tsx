@@ -3,7 +3,7 @@ import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 
 const BUBBLE_RADIUS_MULTIPLIER = 5;
-const BUBBLE_THRESHOLD = 300;
+const BUBBLE_THRESHOLD = 700;
 const BUBBLE_SHADOW_COLOR = "rgba(255, 0, 0, 0.3)";
 const EXCLAMATION_FONT_SIZE = 14;
 const EXCLAMATION_ANIMATION_OFFSET = -5;
@@ -203,18 +203,18 @@ const BubbleChart = ({ data }: { data: BubbleData[] }) => {
         });
 
         const labelFontSize = EXCLAMATION_FONT_SIZE;
-        const legendYOffset = 12;
+        const legendYOffset = 25;
 
         svg.append("text")
-            .attr("x", 25)
-            .attr("y", labelFontSize)
-            .text("1 unit = 250 watts")
+            .attr("x", 20)
+            .attr("y", legendYOffset)
+            .text("Square = 250 Watts")
             .style("font-size", `${labelFontSize}px`)
             .style("fill", "gray")
             .style("fill-opacity", 0.6);
 
         svg.append("text")
-            .attr("x", 25)
+            .attr("x", 20)
             .attr("y", legendYOffset + 20)
             .text("! = High Consumer")
             .style("font-size", `${labelFontSize}px`)
