@@ -10,7 +10,7 @@ import {
 } from "@material-tailwind/react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse, faPlug, faBell, faUser, faGear, faPowerOff } from '@fortawesome/free-solid-svg-icons'
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import NewNoticesContext from '../hooks/NewNoticesContext';
 
 interface SidebarProps {
@@ -24,6 +24,7 @@ export default function Sidebar({ showSidebar }: SidebarProps) {
     }
     const { newNotices, setNewNotices } = context;
     const location = useLocation();
+    const navigation = useNavigate();
 
     useEffect(() => {
         // Get stored notices count from localStorage
@@ -45,6 +46,12 @@ export default function Sidebar({ showSidebar }: SidebarProps) {
         // Save the newNotices count to localStorage whenever it changes
         localStorage.setItem('newNotices', String(newNotices));
     }, [newNotices]);
+
+    const logOut = () => {
+        localStorage.setItem('isLoggenIn', 'false');
+        localStorage.setItem('token', '');
+        navigation('/login');
+    }
 
     return (
         <div className={`transition-width duration-300 ease-in-out overflow-hidden ${showSidebar ? 'min-w-[14rem] max-w-[16rem]' : 'w-0 min-w-0 max-w-0'}`}>

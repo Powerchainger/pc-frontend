@@ -23,6 +23,7 @@ export default function HomePage() {
     const [data, setData] = useState<Measurement[]>([]);
     const guideShown = localStorage.getItem("guideShown") === "true";
     const [showGuide, setShowGuide] = useState(!guideShown);
+    const username = localStorage.getItem('username');
 
     useEffect(() => {
         getMeasurements24h("levi")
@@ -105,7 +106,7 @@ export default function HomePage() {
             <div className="flex justify-between items-center bg-white p-6 rounded-b-lg shadow-md -mt-2 z-10">
                 <div>
                     <Typography variant="h5" className="text-gray-800">
-                        Welcome to Your Energy Dashboard
+                        Welcome to Your Energy Dashboard {username}
                     </Typography>
                     <Typography variant="body1" className="text-gray-600">
                         Detect your appliances every minute for the last 5 minutes!
