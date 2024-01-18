@@ -48,8 +48,9 @@ export default function Sidebar({ showSidebar }: SidebarProps) {
     }, [newNotices]);
 
     const logOut = () => {
-        localStorage.setItem('isLoggenIn', 'false');
+        localStorage.setItem('isLoggedIn', 'false');
         localStorage.setItem('token', '');
+        localStorage.setItem('username', '');
         navigation('/login');
     }
 
@@ -104,14 +105,16 @@ export default function Sidebar({ showSidebar }: SidebarProps) {
                     {/*        Settings*/}
                     {/*    </ListItem>*/}
                     {/*</Link>*/}
-                    <Link to={"/login"}>
+                    {/*<Link to={"/login"}>*/}
+                    <div onClick={logOut}>
                     <ListItem>
                         <ListItemPrefix>
                             <FontAwesomeIcon icon={faPowerOff} className="h-5 w-5" />
                         </ListItemPrefix>
                         Log Out
                     </ListItem>
-                    </Link>
+                    </div>
+                    {/*</Link>*/}
                 </List>
             </Card>
         </div>

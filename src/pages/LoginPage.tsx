@@ -14,6 +14,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import BackgroundImage from '../LoginImage.jpg'
 import {useNavigate} from "react-router-dom";
 import { login } from "../api/Api";
+import {useState} from "react";
 
 function Copyright(props: any) {
   return (
@@ -33,6 +34,7 @@ const defaultTheme = createTheme();
 export default function SignInSide() {
     const navigate = useNavigate();
     const [correctLogin, setCorrectLogin] = React.useState(true)
+    const [showPassword, setShowPassword] = useState(false);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -61,6 +63,12 @@ export default function SignInSide() {
     catch (e) {}
 
   };
+    const handleCheckboxChange = () => {
+        setShowPassword(!showPassword);
+        setTimeout(() => {
+            setShowPassword(false)
+        }, 2000)
+    }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -115,14 +123,19 @@ export default function SignInSide() {
                 fullWidth
                 name="password"
                 label="Password"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 id="password"
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+                <input
+                    type="checkbox"
+                    checked={showPassword}
+                    onChange={handleCheckboxChange}
+                /> show password
+              {/*<FormControlLabel*/}
+              {/*  control={<Checkbox value="remember" color="primary" />}*/}
+              {/*  label="Remember me"*/}
+              {/*/>*/}
               <Button
                 type="submit"
                 fullWidth

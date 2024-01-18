@@ -12,6 +12,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import BackgroundImage from '../LoginImage.jpg'
 import {useNavigate} from "react-router-dom";
 import { register } from "../api/Api";
+import {useState} from "react";
 
 function Copyright(props: any) {
     return (
@@ -26,12 +27,14 @@ function Copyright(props: any) {
     );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
     const navigate = useNavigate();
-    const [passwordMatch, setPasswordMatch] = React.useState(true)
+    const [passwordMatch, setPasswordMatch] = React.useState(true);
+    const [validCredentials, setValidCredentials] = React.useState(true);
+    const [errorMessage, setErrorMessage] = React.useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -39,28 +42,36 @@ export default function SignInSide() {
         let password = data.get('password');
         let password2 = data.get('password2');
         if (password !== password2) {
-            console.log(data.get('password') !== data.get('password2'))
             setPasswordMatch(false);
         } else {
             setPasswordMatch(true);
 
             try {
                 register(username as string, password as string).then((response) => {
-                    let message = Object.values(response.data);
                     if (response.status === 200) {
+                        setErrorMessage("");
+                        setValidCredentials(true)
                         navigate('/login');
                     }
-                })
-                    .catch((error) => {
-                        console.error("Error registering account: ", error);
+                }).catch((error) => {
+                        setErrorMessage(error.response.data.errors);
+                        setValidCredentials(false);
                     });
             }
             catch (e)
             {
-
+                console.log(e);
             }
         }
     };
+
+    const handleCheckboxChange = () => {
+        setShowPassword(!showPassword);
+        setTimeout(() => {
+            setShowPassword(false)
+        }, 2000)
+    }
+
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -98,6 +109,9 @@ export default function SignInSide() {
                         { !passwordMatch ? <Typography component="h1" color="red">
                             Passwords don't match
                         </Typography>:null}
+                        { !validCredentials ? <Typography component="h1" color="red">
+                            {errorMessage[0]}
+                        </Typography>:null}
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                             <TextField
                                 margin="normal"
@@ -115,7 +129,7 @@ export default function SignInSide() {
                                 fullWidth
                                 name="password"
                                 label="Password"
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 autoComplete="current-password"
                             />
@@ -125,10 +139,15 @@ export default function SignInSide() {
                                 fullWidth
                                 name="password2"
                                 label=" Repeat Password"
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 autoComplete="current-password"
                             />
+                            <input
+                                type="checkbox"
+                                checked={showPassword}
+                                onChange={handleCheckboxChange}
+                            /> show passwords
                             <Button
                                 type="submit"
                                 fullWidth
