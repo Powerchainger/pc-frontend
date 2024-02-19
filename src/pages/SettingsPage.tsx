@@ -75,7 +75,6 @@ const SettingsPage = () => {
                     {showSavedMsg && <span className="ml-4 text-green-500">Settings have been saved!</span>}
                 </Box>
             </Box>
-            <ResetPassword></ResetPassword>
         </Layout>
     );
 };

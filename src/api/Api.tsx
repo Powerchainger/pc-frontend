@@ -1,12 +1,12 @@
 import axios from "axios";
 
 // Define the base URL for your API
-//const API_BASE_URL = "http://demo.powerchainger.nl:8000"; // replace with your API's base URL
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = "http://demo.powerchainger.nl:8000"; // replace with your API's base URL
+//const API_BASE_URL = "http://127.0.0.1:8000";
 
 const headers = {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MDU2MDMzNDAsImV4cCI6MTcwNTYzOTM0MCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiamFuZGVtYW4ifQ.iDgZrQb69DuAH95OxnmPRYSW0-tFTodAAODjFuVcR_KGT3icaeuFvgdwUinCJ_MftQfeGwwW3gJ2eY3W1bOZdZQ0pt5KxhbIdZF7vUPSVKVi4k41VHPemV4V4NxRc3A8P6XLZdG57PzRUN5eriQcg2nmRgtGppU2jp0nmhxoIL77tIFZlHqWvpv99f2sfGwYDRCtxtNTGhwpygGFdqx4ct7LWf1oKKZy2pyjISba3R2hNHcZ_HJ7HO_Vy19Hdb7LDkCR9aDn33Co_wvQDax4LmmHTnc4-duMfM9z71efqrX1rnFExVty2lZgB71KzSYou9QuVB6CRxeYScM2aVZYBw`
+    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MDgwMDQ0NzYsImV4cCI6MTcwODA0MDQ3Niwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoicGFhc2hhYXMifQ.hxFN2DRICZHyqaDa14GfdTsihTh7pLLXNiWv0JnaZdCp54usI6poGscyVaV7pfGfu9UehKYrYJu50Nsq80nQo7AJoby-rnIFj8fHj02IntXnNa5zCVyaTnTChHTYB5WMrTj7i7Oc3e3i3CxTrGm3PqemTIsVUHXQr_ttYTrwWU6o2zSHD7-pRvT8iGbRMJKlnmxM1z11gOstrKmMxOHpU5sSLG1JuK4HZtKTnpqptKVU9VLosafT0I0BLSJ2_l_he_5Mly5uLnVYZHAuaXUr7uICSURFTGWQhvWFL1-vH6ThQigArIz288LuWjnO_rAIPSVtFZGfXMQKptH71UQrpg'
 }
 
 // Define interfaces for your data

@@ -13,13 +13,14 @@ export default function ResetPassword() {
             let newPassword = data.get('newPassword');
             let newPassword2 = data.get('newPassword2');
 
+            console.log(oldPassword);
             if (newPassword !== newPassword2) {
                 setPasswordMatch(false);
                 setValidCredentials(true);
             } else {
                 setPasswordMatch(true);
                 try {
-                    changePassword(oldPassword as string, newPassword as string).then((response) => {
+                    changePassword(oldPassword! as string, newPassword as string).then((response) => {
 
                         if (response.status === 202) {
                             setValidCredentials(true)
@@ -27,10 +28,11 @@ export default function ResetPassword() {
                             setValidCredentials(false);
                         }
                     }).catch((error) => {
+                        console.error("Error changing password:", error);
                         setValidCredentials(false);
                     });
                 } catch (e) {
-                    console.log(e);
+                    console.error("Error calling changePassword:", e);
                 }
             }
         }

@@ -48,6 +48,7 @@ export default function SignInSide() {
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('username', message[0] as string);
                 localStorage.setItem('token', message[1] as string);
+                console.log()
                 navigate('/');
             }
             else if(response.status === 401){

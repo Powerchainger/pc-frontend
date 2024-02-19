@@ -25,6 +25,13 @@ export default function HomePage() {
     const [showGuide, setShowGuide] = useState(!guideShown);
     const username = localStorage.getItem('username');
 
+    const solarData = [
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.8828,4.8586,11.6552,20.3966,32.0552,32.0552,27.1966,33.9966,42.7414,57.3104
+        ,42.7414,36.9104,49.538,68.9656,74.7932,84.507,92.2794,108.7898,126.7418,133.7016,141.6916,144.6258,159.834,201.1202,180.2442,154.5504,144.3708,136.2754,111.7036,95.1932,92.2794
+        ,102.9622,102.9622,86.4484,97.1312,121.975,174.148,154.6592,207.0668,192.8616,155.7506,178.007,135.1398,108.035,90.7222,99.6676,59.33,66.0076,74.6946,100.0552,170.9656,36.805
+        ,12.6276,5.8276,0.969,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+    ]
+
     useEffect(() => {
         getMeasurements24h("levi")
             .then((response) => {
@@ -40,15 +47,72 @@ export default function HomePage() {
         setShowGuide(!showGuide);
     };
 
+    const generateSolarDictionary = () => {
+        let timestamps = [];
+        let dictionary = {};
+
+        let startTime = new Date();
+        startTime.setHours(0, 0, 0, 0);
+
+        let endTime = new Date(startTime);
+        endTime.setDate(endTime.getDate() + 1);
+
+        for (let time = startTime; time < endTime; time.setMinutes(time.getMinutes() + 10)) {
+            timestamps.push(new Date(time));
+        }
+
+        if (timestamps.length === solarData.length) {
+            for (let i = 0; i < timestamps.length; i++) {
+                // @ts-ignore
+                dictionary[timestamps[i]] = solarData[i];
+            }
+        }
+
+        return dictionary;
+    };
+
     const downsampledData = data.filter((_, index) => index % 1000 === 0);
 
+    const updatedData = downsampledData.map((m)  =>  {
+        const timestamp = new Date(m.timestamp).getTime();
+        const solarDictionary = generateSolarDictionary();
+        let closestTimestamp;
+        let minDifference = Infinity;
+
+        for (const solarTimestamp in solarDictionary) {
+            const solarTimestampTime = new Date(solarTimestamp);
+            // @ts-ignore
+            const difference = Math.abs(timestamp - solarTimestampTime);
+
+            if (difference < minDifference) {
+                minDifference = difference;
+                closestTimestamp = solarTimestampTime;
+            }
+        }
+        // Get the value for the closest matching timestamp
+        // @ts-ignore
+        const value = solarDictionary[closestTimestamp];
+
+        return typeof value !== 'undefined' ? value : null; // Handle missing values
+    });
+
+    console.log(updatedData)
+
+
     const chartData = {
-        labels: downsampledData.map((d) => d.timestamp), // Keep it as is
+        labels: downsampledData.map((d) => d.timestamp), //
         datasets: [
             {
-                label: "Active Power",
+                label: "Active Power usage",
                 data: downsampledData.map((d) => d.active_power),
                 borderColor: "rgba(75,192,192,1)",
+                fill: false,
+                pointRadius: 0, // Remove dots
+            },
+            {
+                label: "Average solar panel generation",
+                data: updatedData,
+                borderColor: "rgba(255, 0, 0, 0.5)",
                 fill: false,
                 pointRadius: 0, // Remove dots
             },
@@ -70,6 +134,7 @@ export default function HomePage() {
                     callback: function(value: any, index: any, values: any): string | number | null | undefined {
                         const actualTimestamp = downsampledData[index]?.timestamp;
                         if (actualTimestamp) {
+                            // @ts-ignore
                             return moment(actualTimestamp, 'YYYY-MM-DD HH:mm:ss').format('HH:mm');
                         }
                         return null;
@@ -85,7 +150,7 @@ export default function HomePage() {
         },
         plugins: {
             legend: {
-                display: false
+                display: true
             },
             tooltip: {
                 enabled: false
@@ -101,6 +166,7 @@ export default function HomePage() {
         },
     };
 
+    // @ts-ignore
     return (
         <Layout>
             <div className="flex justify-between items-center bg-white p-6 rounded-b-lg shadow-md -mt-2 z-10">
