@@ -25,6 +25,7 @@ const SettingsPage = () => {
 
     const handleSave = () => {
         localStorage.setItem("selectedModel", selectedModel);
+        localStorage.setItem("submodel", suppModel);
         setIsChanged(false);
         setShowSavedMsg(true);
         setTimeout(() => setShowSavedMsg(false), 3000);
@@ -37,6 +38,11 @@ const SettingsPage = () => {
                     <Typography variant="h5" gutterBottom className="text-gray-700">
                         Model settings 🛠️
                     </Typography>
+                    <Typography variant="subtitle1" gutterBottom className="text-gray-700">
+                        <b>Current model:</b> {localStorage.getItem('selectedModel')}
+                        <br></br>
+                        <b>Current sub model:</b> {localStorage.getItem('submodel')}
+                    </Typography>
                 </Box>
                 <Box my={4} className="flex">
                     <Box className="flex flex-col w-1/2">
@@ -45,9 +51,12 @@ const SettingsPage = () => {
                         </Typography>
                         <RadioGroup value={selectedModel} onChange={handleModelChange}>
                             <FormControlLabel value="convexopt" control={<Radio color="primary" />} label="ConvexOpt" />
-                            {selectedModel === "convexopt" && <span className="max-w-full">Convex Optimization model, a model that infers which appliances are working, based on the total consumption, the time of the day, and the switching frequency of those appliances.</span>}
-                            <FormControlLabel value="fhmm" control={<Radio color="primary" />} label="FHMM" />
-                            {selectedModel === "fhmm" && <span className="max-w-full">Factorial Hidden Markov Model, a model that is based on the estimated transition probabilities and emission probabilities. The transition probability is the probability to transition from one operating state, to another one, the emission probability is the probability of observing a state, given a certain total consumption.</span>}
+                            {selectedModel === "convexopt" && <span className="max-w-full">The Convex Optimization model is a model that infers which appliances are working based on:
+                                <ul>
+                                    <li>  o  the total consumption</li>
+                                    <li>  o  the time of the day</li>
+                                    <li>  o  the switching frequency of those appliances</li>
+                                </ul></span>}
                         </RadioGroup>
                     </Box>
                     <Box mt={4} className="ml-8 flex-1 min-h-[100px]">
@@ -58,7 +67,8 @@ const SettingsPage = () => {
                                 </Typography>
                                 <RadioGroup value={suppModel} onChange={handleSuppModelChange}>
                                     <FormControlLabel value="None" control={<Radio color="primary" />} label="None" />
-                                    <FormControlLabel value="Supp. Model 1" control={<Radio color="primary" />} label="Supp. Model 1" />
+                                    <FormControlLabel value="fridge" control={<Radio color="primary" />} label="DL model fridge" />
+                                    <FormControlLabel value="computer" control={<Radio color="primary" />} label="DL model computer" />
                                 </RadioGroup>
                             </>
                         )}
@@ -66,8 +76,7 @@ const SettingsPage = () => {
                 </Box>
                 <Box mt={4}>
                     <button
-                        className={`px-4 py-2 rounded ${isChanged ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-500'}`}
-                        disabled={!isChanged}
+                        className={`px-4 py-2 rounded bg-blue-500 text-white`}
                         onClick={handleSave}
                     >
                         Save

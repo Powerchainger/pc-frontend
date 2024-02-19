@@ -12,6 +12,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import BackgroundImage from '../LoginImage.jpg'
+import logoImage from '../Power-Chainger-logo-1.jpg';
 import {useNavigate} from "react-router-dom";
 import { login } from "../api/Api";
 import {useState} from "react";
@@ -99,11 +100,13 @@ export default function SignInSide() {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            </Avatar>
+            {/*<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>*/}
+            {/*</Avatar>*/}
+              <img src='../Power-Chainger-logo-1.jpg' width="200" height="250"></img>
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
+
               { !correctLogin ? <Typography component="h1" color="red">
                  Password or username is incorrect
               </Typography>:null}
@@ -133,10 +136,6 @@ export default function SignInSide() {
                     checked={showPassword}
                     onChange={handleCheckboxChange}
                 /> show password
-              {/*<FormControlLabel*/}
-              {/*  control={<Checkbox value="remember" color="primary" />}*/}
-              {/*  label="Remember me"*/}
-              {/*/>*/}
               <Button
                 type="submit"
                 fullWidth

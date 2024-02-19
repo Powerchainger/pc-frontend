@@ -63,7 +63,8 @@ export const getPredictions5m = () => {
     const modelType = localStorage.getItem("selectedModel") || "fhmm";
     const model_id = modelType === "fhmm" ? "test" : "optModel_levi";
     const dataset = modelType === "fhmm" ? "levi" : "levi";
+    const subModel = localStorage.getItem('submodel')
     const encodedModelId = encodeURIComponent(model_id);
-    return axios.get(`${API_BASE_URL}/api/predictions?dataset=${dataset}&model_id=${encodedModelId}&model_type=${modelType}`);
+    return axios.get(`${API_BASE_URL}/api/predictions?dataset=${dataset}&model_id=${encodedModelId}&model_type=${modelType}&supp_models=${subModel}`);
 }
 

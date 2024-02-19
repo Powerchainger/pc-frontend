@@ -101,8 +101,7 @@ export default function SignInSide() {
                             alignItems: 'center',
                         }}
                     >
-                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        </Avatar>
+                        <img src='../Power-Chainger-logo-1.jpg' width="200" height="250"></img>
                         <Typography component="h1" variant="h5">
                             Register
                         </Typography>
