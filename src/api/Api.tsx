@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Define the base URL for your API
-const API_BASE_URL = "http://localhost:8000"; // replace with your API's base URL
+const API_BASE_URL = "http://demo.powerchainger.nl:8000"; // replace with your API's base URL
 
 // Define interfaces for your data
 interface MeasurementTest {
