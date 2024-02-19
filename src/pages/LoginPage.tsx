@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import BackgroundImage from '../LoginImage.jpg'
 import {useNavigate} from "react-router-dom";
+import { login } from "../api/Api";
+import {useState} from "react";
 
 function Copyright(props: any) {
   return (
@@ -27,22 +29,47 @@ function Copyright(props: any) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
     const navigate = useNavigate();
     const [correctLogin, setCorrectLogin] = React.useState(true)
+    const [showPassword, setShowPassword] = useState(false);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-      if (data.get("username") === "snn" && data.get("password") === "snn2023") {
-          localStorage.setItem('isLoggedIn', 'true');
-          setCorrectLogin(true);
-          navigate('/');
-      }
-      setCorrectLogin(false)
+    const username = data.get('username');
+    const password = data.get('password');
+    try {
+        login(username as string, password as string).then((response) => {
+            let message = Object.values(response.data);
+            if (response.status === 200) {
+                setCorrectLogin(true)
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('username', message[0] as string);
+                localStorage.setItem('token', message[1] as string);
+                console.log()
+                navigate('/');
+            }
+            else if(response.status === 401){
+                console.log('401')
+                setCorrectLogin(false);
+            }
+        })
+            .catch((error) => {
+                console.error("Error logging in: ", error);
+                setCorrectLogin(false);
+            });
+    }
+    catch (e) {}
+
   };
+    const handleCheckboxChange = () => {
+        setShowPassword(!showPassword);
+        setTimeout(() => {
+            setShowPassword(false)
+        }, 2000)
+    }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -97,14 +124,19 @@ export default function SignInSide() {
                 fullWidth
                 name="password"
                 label="Password"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 id="password"
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+                <input
+                    type="checkbox"
+                    checked={showPassword}
+                    onChange={handleCheckboxChange}
+                /> show password
+              {/*<FormControlLabel*/}
+              {/*  control={<Checkbox value="remember" color="primary" />}*/}
+              {/*  label="Remember me"*/}
+              {/*/>*/}
               <Button
                 type="submit"
                 fullWidth
@@ -120,14 +152,15 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link href="/register" variant="body2">
+                    {"Don't have an account? Register"}
                   </Link>
                 </Grid>
               </Grid>
               {/*<Copyright sx={{ mt: 5 }} />*/}
             </Box>
           </Box>
+            <Copyright></Copyright>
         </Grid>
       </Grid>
     </ThemeProvider>

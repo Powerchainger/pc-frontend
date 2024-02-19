@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Layout from '../components/Layout';
+import ResetPassword from '../components/ResetPassword'
 import { Box, FormControlLabel, Checkbox, Radio, RadioGroup, Slider, Switch, TextField, Typography, IconButton } from '@mui/material';
 import {toast} from "react-toastify";
 const SettingsPage = () => {
@@ -34,7 +35,7 @@ const SettingsPage = () => {
             <Box m={3} className="bg-white shadow-lg rounded-lg p-8">
                 <Box className="flex justify-between items-center mb-4">
                     <Typography variant="h5" gutterBottom className="text-gray-700">
-                        Settings 🛠️
+                        Model settings 🛠️
                     </Typography>
                 </Box>
                 <Box my={4} className="flex">

@@ -3,9 +3,20 @@ import axios from "axios";
 // Define the base URL for your API
 const API_BASE_URL = "http://demo.powerchainger.nl:8000"; // replace with your API's base URL
 
+
+const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': localStorage.getItem('token')
+}
+
 // Define interfaces for your data
 interface MeasurementTest {
     measurement: number;
+}
+
+interface UserData {
+    username:string;
+    password:string;
 }
 
 interface PostMeasurementsData {
@@ -26,6 +37,18 @@ export const postMeasurementTest = (data: MeasurementTest) => {
 
 export const postMeasurements = (data: PostMeasurementsData) => {
     return axios.post(`${API_BASE_URL}/post-measurements`, data);
+}
+
+export const register = (username:string, password:string) => {
+    return axios.post(`${API_BASE_URL}/api/register`, {username:username, password:password})
+}
+
+export const changePassword = (oldPassword:string, newPassword:string) => {
+    return axios.post(`${API_BASE_URL}/api/change-password`, {oldPassword:oldPassword, newPassword:newPassword}, {headers: headers})
+}
+
+export const login = (username:string, password:string) => {
+    return axios.post(`${API_BASE_URL}/api/login`, {username:username, password:password})
 }
 
 export const getMeasurements24h = (username: string) => {

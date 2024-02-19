@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import DevicesPage from "./pages/DevicesPage";
 import NoticesPage from "./pages/NoticesPage";
+import RegisterPage from "./pages/RegisterPage";
 import NewNoticesContext from './hooks/NewNoticesContext';
 import SettingsPage from "./pages/SettingsPage";
 import { ToastContainer } from 'react-toastify';
@@ -27,6 +28,7 @@ function App() {
                 <AuthWrapper>
                     <Routes>
                         <Route path="/login" element={<LoginPage />} />
+                        <Route path="/register" element={<RegisterPage />} />
                         <Route path="/" element={<HomePage />} />
                         <Route path="/prediction" element={<DevicesPage />} />
                         <Route path="/notices" element={<NoticesPage />} />

@@ -7,10 +7,10 @@ interface LayoutProps {
 export default function AuthWrapper({ children }: LayoutProps) {
     const navigate = useNavigate();
     const location = useLocation();
-
+    const allowedPaths = ['/login', '/register'];
     useEffect(() => {
         const isLoggedIn = localStorage.getItem('isLoggedIn');
-        if (!isLoggedIn && location.pathname !== '/login') {
+        if (isLoggedIn !== "true" && allowedPaths.indexOf(location.pathname) === -1 ) {
             navigate('/login');
         }
     }, [location]);
