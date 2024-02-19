@@ -20,7 +20,7 @@ RUN chown -R appuser:appgroup /app
 # switch to "appuser"
 USER appuser
 
-RUN npm install
+RUN npm ci
 
 # add app
 COPY --chown=appuser:appgroup . ./
