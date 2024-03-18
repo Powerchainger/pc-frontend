@@ -5,17 +5,17 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import DevicesPage from "./pages/DevicesPage";
 import NoticesPage from "./pages/NoticesPage";
-import RegisterPage from "./pages/RegisterPage";
 import NewNoticesContext from './hooks/NewNoticesContext';
 import SettingsPage from "./pages/SettingsPage";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AuthWrapper from './components/AuthWrapper';
+import AuthWrapper from "./components/AuthWrapper";
 
 function App() {
     const [newNotices, setNewNotices] = useState(0);
 
     useEffect(() => {
+
         const storedNoticesCount = localStorage.getItem('newNotices');
         if (storedNoticesCount) {
             setNewNotices(Number(storedNoticesCount));
@@ -23,22 +23,20 @@ function App() {
     }, []);
 
     return (
-        <NewNoticesContext.Provider value={{ newNotices, setNewNotices }}>
-            <Router>
+            <NewNoticesContext.Provider value={{ newNotices, setNewNotices }}>
                 <AuthWrapper>
-                    <Routes>
-                        <Route path="/login" element={<LoginPage />} />
-                        <Route path="/register" element={<RegisterPage />} />
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="/prediction" element={<DevicesPage />} />
-                        <Route path="/notices" element={<NoticesPage />} />
-                        <Route path="/settings" element={<SettingsPage />} />
-                    </Routes>
+                <Router>
+                        <Routes>
+                            <Route path="/login" element={<LoginPage />} />
+                            <Route path="/" element={<HomePage />} />
+                            <Route path="/prediction" element={<DevicesPage />} />
+                            <Route path="/settings" element={<SettingsPage />} />
+                            <Route path="/notices" element={<NoticesPage />} />
+                        </Routes>
+                    <ToastContainer style={{ top: '60px' }} />
+                </Router>
                 </AuthWrapper>
-                <ToastContainer style={{ top: '60px' }} />
-            </Router>
-        </NewNoticesContext.Provider>
+            </NewNoticesContext.Provider>
     );
 }
-
 export default App;

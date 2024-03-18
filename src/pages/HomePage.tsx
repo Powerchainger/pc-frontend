@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from "react";
 import Layout from "../components/Layout";
 import Guide from "../components/Guide";
-import {Box, Grid, Chip} from "@mui/material";
-import Graph from "../components/Graph";
+import {Chip} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
 import { getMeasurements24h } from "../api/Api";
 import { Line } from "react-chartjs-2";
 import {CategoryScale, Chart, LinearScale, LineElement, PointElement} from "chart.js";
@@ -23,16 +21,16 @@ export default function HomePage() {
     const [data, setData] = useState<Measurement[]>([]);
     const guideShown = localStorage.getItem("guideShown") === "true";
     const [showGuide, setShowGuide] = useState(!guideShown);
-    const username = localStorage.getItem('username');
+    const [username, setUsername] = useState("");
 
     const solarData = [
         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3.8828,4.8586,11.6552,20.3966,32.0552,32.0552,27.1966,33.9966,42.7414,57.3104
         ,42.7414,36.9104,49.538,68.9656,74.7932,84.507,92.2794,108.7898,126.7418,133.7016,141.6916,144.6258,159.834,201.1202,180.2442,154.5504,144.3708,136.2754,111.7036,95.1932,92.2794
-        ,102.9622,102.9622,86.4484,97.1312,121.975,174.148,154.6592,207.0668,192.8616,155.7506,178.007,135.1398,108.035,90.7222,99.6676,59.33,66.0076,74.6946,100.0552,170.9656,36.805
-        ,12.6276,5.8276,0.969,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-    ]
+        ,102.9622,102.9622,86.4484,97.1312,121.975,174.148,154.6592,207.0668,192.8616,155.7506,178.007,135.1398,108.035,90.7222,99.6676,59.33,66.0076,74.6946,100.0552,170.9656,116.805
+        ,101.6276,94.8276,86.969,77.90,78.88,74.9,72,66.8,55.7,49.908,43.22,33.2,20.01,11.2,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
 
     useEffect(() => {
+
         getMeasurements24h("levi")
             .then((response) => {
                 const fetchedData: Measurement[] = Object.values(response.data);
@@ -66,23 +64,33 @@ export default function HomePage() {
                 // @ts-ignore
                 dictionary[timestamps[i]] = solarData[i];
             }
+        } else {
+            console.error("Timestamps and Solar Data arrays have different lengths.");
         }
+
 
         return dictionary;
     };
-
     const downsampledData = data.filter((_, index) => index % 1000 === 0);
+
+    const solarDictionary = generateSolarDictionary();
+
+    //const timestamps = downsampledData.map(entry => entry.timestamp)
+
+
 
     const updatedData = downsampledData.map((m)  =>  {
         const timestamp = new Date(m.timestamp).getTime();
-        const solarDictionary = generateSolarDictionary();
+        //console.log(solarDictionary)
+
         let closestTimestamp;
         let minDifference = Infinity;
 
-        for (const solarTimestamp in solarDictionary) {
+        for (const [solarTimestamp, value] of Object.entries((solarDictionary))) {
             const solarTimestampTime = new Date(solarTimestamp);
             // @ts-ignore
             const difference = Math.abs(timestamp - solarTimestampTime);
+
 
             if (difference < minDifference) {
                 minDifference = difference;
@@ -93,11 +101,12 @@ export default function HomePage() {
         // @ts-ignore
         const value = solarDictionary[closestTimestamp];
 
+        //console.log(closestTimestamp)
+
         return typeof value !== 'undefined' ? value : null; // Handle missing values
     });
 
     console.log(updatedData)
-
 
     const chartData = {
         labels: downsampledData.map((d) => d.timestamp), //
@@ -172,7 +181,7 @@ export default function HomePage() {
             <div className="flex justify-between items-center bg-white p-6 rounded-b-lg shadow-md -mt-2 z-10">
                 <div>
                     <Typography variant="h5" className="text-gray-800">
-                        Welcome to Your Energy Dashboard {username}
+                        Welcome to Your Energy Dashboard {localStorage.getItem("firstname")}
                     </Typography>
                     <Typography variant="body1" className="text-gray-600">
                         Detect your appliances every minute for the last 5 minutes!

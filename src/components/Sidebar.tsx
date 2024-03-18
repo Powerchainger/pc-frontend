@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useContext} from "react";
+import kc from "../keycloak"
 import {
     Card,
     Typography,
@@ -48,10 +49,10 @@ export default function Sidebar({ showSidebar }: SidebarProps) {
     }, [newNotices]);
 
     const logOut = () => {
-        localStorage.setItem('isLoggedIn', 'false');
-        localStorage.setItem('token', '');
-        localStorage.setItem('username', '');
-        navigation('/login');
+        localStorage.setItem("username", " ")
+        localStorage.setItem("email", " ")
+        localStorage.setItem("token", " ")
+        kc.logout();
     }
 
     return (

@@ -27,14 +27,14 @@ const Device: React.FC<DeviceProps> = ({ name = "device", state = "off", image }
         localStorage.setItem("feedback " + name, "false")
         setShowFeedback(false)
         // @ts-ignore
-        sendFeedback(name, localStorage.getItem("sync"), "true")
+        //sendFeedback(name, localStorage.getItem("sync"), "true")
     }
 
     const handleFeedbackNo = () => {
         localStorage.setItem("feedback " + name, "false")
         setShowFeedback(false)
         // @ts-ignore
-        sendFeedback(name, localStorage.getItem("sync"), "false")
+        //sendFeedback(name, localStorage.getItem("sync"), "false")
     }
 
     const sendFeedback = (device: String, time: String, feedback: String) => {

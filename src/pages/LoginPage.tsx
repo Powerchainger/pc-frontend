@@ -1,10 +1,7 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -14,15 +11,15 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import BackgroundImage from '../LoginImage.jpg'
 import logoImage from '../Power-Chainger-logo-1.jpg';
 import {useNavigate} from "react-router-dom";
-import { login } from "../api/Api";
 import {useState} from "react";
+import { useKeycloak } from '@react-keycloak/web'
 
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://www.powerchainger.nl/">
-        Powerchainger bv
+        Powerchainger
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -33,37 +30,21 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
+    const { keycloak } = useKeycloak();
     const navigate = useNavigate();
     const [correctLogin, setCorrectLogin] = React.useState(true)
     const [showPassword, setShowPassword] = useState(false);
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const username = data.get('username');
-    const password = data.get('password');
-    try {
-        login(username as string, password as string).then((response) => {
-            let message = Object.values(response.data);
-            if (response.status === 200) {
-                setCorrectLogin(true)
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('username', message[0] as string);
-                localStorage.setItem('token', message[1] as string);
-                console.log()
-                navigate('/');
-            }
-            else if(response.status === 401){
-                console.log('401')
-                setCorrectLogin(false);
-            }
-        })
-            .catch((error) => {
-                console.error("Error logging in: ", error);
-                setCorrectLogin(false);
-            });
-    }
-    catch (e) {}
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      try {
+        // @ts-ignore
+          await keycloak.login({username, password,})
 
+      } catch (e) {
+          console.log(e)
+      }
   };
     const handleCheckboxChange = () => {
         setShowPassword(!showPassword);
@@ -74,7 +55,7 @@ export default function SignInSide() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+      <Grid container component="main" sx={{ height: '100vh'}}>
         <CssBaseline />
         <Grid
           item
@@ -116,6 +97,8 @@ export default function SignInSide() {
                 id="username"
                 label="Username"
                 name="username"
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
                 autoComplete="email"
                 autoFocus
               />
@@ -126,6 +109,8 @@ export default function SignInSide() {
                 name="password"
                 label="Password"
                 type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
                 id="password"
                 autoComplete="current-password"
               />
@@ -143,18 +128,7 @@ export default function SignInSide() {
                 Sign In
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="/register" variant="body2">
-                    {"Don't have an account? Register"}
-                  </Link>
-                </Grid>
               </Grid>
-              {/*<Copyright sx={{ mt: 5 }} />*/}
             </Box>
           </Box>
             <Copyright></Copyright>

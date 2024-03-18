@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Layout from '../components/Layout';
-import ResetPassword from '../components/ResetPassword'
-import { Box, FormControlLabel, Checkbox, Radio, RadioGroup, Slider, Switch, TextField, Typography, IconButton } from '@mui/material';
-import {toast} from "react-toastify";
+import { Box, FormControlLabel,  Radio, RadioGroup,Typography} from '@mui/material';
+
 const SettingsPage = () => {
     const initialModel = localStorage.getItem("selectedModel") || "fhmm";
     const [selectedModel, setSelectedModel] = useState<string>(initialModel);

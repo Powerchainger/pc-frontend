@@ -122,7 +122,7 @@ const DevicesPage = () => {
         }
 
         fetchData();
-        const intervalId = setInterval(fetchData, 60 * 1000);
+        const intervalId = setInterval(fetchData, 60 * 10000);
         return () => clearInterval(intervalId);
     }, []);
 

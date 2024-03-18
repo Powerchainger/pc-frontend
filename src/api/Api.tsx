@@ -39,18 +39,6 @@ export const postMeasurements = (data: PostMeasurementsData) => {
     return axios.post(`${API_BASE_URL}/post-measurements`, data);
 }
 
-export const register = (username:string, password:string) => {
-    return axios.post(`${API_BASE_URL}/api/register`, {username:username, password:password})
-}
-
-export const changePassword = (oldPassword:string, newPassword:string) => {
-    return axios.post(`${API_BASE_URL}/api/change-password`, {oldPassword:oldPassword, newPassword:newPassword}, {headers: headers})
-}
-
-export const login = (username:string, password:string) => {
-    return axios.post(`${API_BASE_URL}/api/login`, {username:username, password:password})
-}
-
 export const getMeasurements24h = (username: string) => {
     return axios.get(`${API_BASE_URL}/api/measurements?owner=${username}`);
 }
