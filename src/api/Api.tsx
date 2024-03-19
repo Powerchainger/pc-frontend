@@ -1,13 +1,24 @@
 import axios from "axios";
+import keycloak from "../keycloak";
 
 // Define the base URL for your API
 const API_BASE_URL = "http://demo.powerchainger.nl:8000"; // replace with your API's base URL
+const NEW_API_URL = "http://localhost:5079"
 
+axios.interceptors.request.use(async config => {
 
-const headers = {
-    'Content-Type': 'application/json',
-    'Authorization': localStorage.getItem('token')
-}
+    try {
+        if (keycloak.isTokenExpired(20)) {
+            await keycloak.updateToken(30)
+        }
+        config.headers['Authorization'] = `Bearer ${keycloak.token}`;
+    } catch (error) {
+            console.log('Failed to refresh token', error);
+        }
+        return config;
+    },
+    error => Promise.reject(error)
+);
 
 // Define interfaces for your data
 interface MeasurementTest {
@@ -26,6 +37,9 @@ interface PostMeasurementsData {
     }[];
 }
 
+export const authTest = () => {
+    return axios.get(`${NEW_API_URL}/test`)
+}
 // Define functions for each of your API endpoints
 export const getApi = () => {
     return axios.get(`${API_BASE_URL}/api`);
@@ -38,6 +52,8 @@ export const postMeasurementTest = (data: MeasurementTest) => {
 export const postMeasurements = (data: PostMeasurementsData) => {
     return axios.post(`${API_BASE_URL}/post-measurements`, data);
 }
+
+
 
 export const getMeasurements24h = (username: string) => {
     return axios.get(`${API_BASE_URL}/api/measurements?owner=${username}`);

@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import Layout from '../components/Layout';
 import { Box, FormControlLabel,  Radio, RadioGroup,Typography} from '@mui/material';
+import {authTest} from "../api/Api";
+import keycloak from "../keycloak";
 
 const SettingsPage = () => {
     const initialModel = localStorage.getItem("selectedModel") || "fhmm";
@@ -21,6 +23,12 @@ const SettingsPage = () => {
     const handleSuppModelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSuppModel(event.target.value);
     };
+
+    const handleTest = () => {
+        authTest().then(result => {
+            console.log(result)
+        })
+    }
 
     const handleSave = () => {
         localStorage.setItem("selectedModel", selectedModel);
@@ -83,6 +91,7 @@ const SettingsPage = () => {
                     {showSavedMsg && <span className="ml-4 text-green-500">Settings have been saved!</span>}
                 </Box>
             </Box>
+            <button onClick={handleTest}>Test me daddy</button>
         </Layout>
     );
 };
